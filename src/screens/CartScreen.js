@@ -77,7 +77,7 @@ export default function CartScreen({ navigation }) {
       cart: cart,
     };
 
-    try {
+   try {
       const response = await fetch(`${BASE_URL}/create_order.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,19 +85,33 @@ export default function CartScreen({ navigation }) {
       });
 
       const res = await response.json();
+
       if (res.status === 'success') {
-        Alert.alert('Đặt hàng thành công!', `Mã đơn: #${res.order_id}\nTổng thanh toán: ${finalTotal.toLocaleString('vi-VN')} đ`, [
-          {
-            text: 'Xem lịch sử',
-            onPress: () => {
-              clearCart();
-              navigation.navigate('Lịch sử', { phone: phone });
+        // Xóa giỏ hàng ngay khi đặt đơn thành công
+        clearCart();
+
+        Alert.alert(
+          '🎉 Đặt hàng thành công!',
+          `Mã đơn: #${res.order_id}\nTổng thanh toán: ${finalTotal.toLocaleString('vi-VN')} đ\nCửa hàng đã tiếp nhận đơn và đang chuẩn bị đồ uống.`,
+          [
+            {
+              text: 'Xem lịch sử',
+              onPress: () => {
+                navigation.navigate('Lịch sử', { phone: phone });
+              },
             },
-          },
-          { text: 'OK', onPress: () => clearCart() },
-        ]);
+            {
+              text: 'Về thực đơn',
+              onPress: () => {
+                navigation.navigate('Thực đơn');
+              },
+              style: 'cancel',
+            },
+          ],
+          { cancelable: false }
+        );
       } else {
-        Alert.alert('Lỗi', res.message || 'Không thể tạo đơn hàng.');
+        Alert.alert('Đặt hàng thất bại', res.message || 'Không thể tạo đơn hàng.');
       }
     } catch (err) {
       Alert.alert('Lỗi mạng', 'Không thể kết nối đến Backend XAMPP.');
