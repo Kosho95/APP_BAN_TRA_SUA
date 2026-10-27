@@ -33,24 +33,48 @@ if (isset($_POST['action']) && $_POST['action'] === 'update_status') {
     }
 }
 
-// 2. Xử lý thêm món mới vào menu
+// 2. Xử lý thêm món mới vào menu (Tự động nhận diện cột ảnh và mô tả)
 if (isset($_POST['action']) && $_POST['action'] === 'add_product') {
     $category_id = intval($_POST['category_id']);
-    $name = trim($_POST['name']);
-    $price = floatval($_POST['price']);
-    $image_url = trim($_POST['image_url']);
-    $description = trim($_POST['description']);
+    $name = trim($_POST['name'] ?? '');
+    $price = floatval($_POST['price'] ?? 0);
+    $image_url = trim($_POST['image_url'] ?? '');
+    $description = trim($_POST['description'] ?? '');
 
     if (!empty($name) && $price > 0) {
         try {
-            $stmt = $conn->prepare("INSERT INTO products (category_id, name, price, image_url, description) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$category_id, $name, $price, $image_url, $description]);
-            $message = "Đã thêm món '$name' vào thực đơn!";
+            // Tự động kiểm tra danh sách cột thực tế của bảng products
+            $cols_stmt = $conn->query("DESCRIBE products");
+            $prod_cols = $cols_stmt->fetchAll(PDO::FETCH_COLUMN);
+
+            // Tìm tên cột ảnh: image_url hay image hay img
+            $img_col = 'image_url';
+            foreach (['image_url', 'image', 'img', 'thumbnail'] as $cand) {
+                if (in_array($cand, $prod_cols)) {
+                    $img_col = $cand;
+                    break;
+                }
+            }
+
+            // Kiểm tra xem bảng products có cột description không
+            $has_desc = in_array('description', $prod_cols);
+
+            if ($has_desc) {
+                $sql = "INSERT INTO products (category_id, name, price, {$img_col}, description) VALUES (?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([$category_id, $name, $price, $image_url, $description]);
+            } else {
+                $sql = "INSERT INTO products (category_id, name, price, {$img_col}) VALUES (?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([$category_id, $name, $price, $image_url]);
+            }
+
+            $message = "🎉 Đã thêm món '$name' vào thực đơn thành công!";
         } catch (Exception $e) {
             $error = "Lỗi thêm món: " . $e->getMessage();
         }
     } else {
-        $error = "Vui lòng nhập tên món và giá hợp lệ!";
+        $error = "Vui lòng nhập tên món và giá tiền hợp lệ!";
     }
 }
 
