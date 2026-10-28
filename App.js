@@ -3,14 +3,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { CartProvider, useCart } from './src/context/CartContext';
+import { AuthProvider, useAuth } from './src/context/AuthContext';
 import MenuScreen from './src/screens/MenuScreen';
 import CartScreen from './src/screens/CartScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
+import AuthScreen from './src/screens/AuthScreen';
 
 const Tab = createBottomTabNavigator();
 
 function RootTabs() {
   const { cart } = useCart();
+  const { user, isLoggedIn } = useAuth();
 
   return (
     <Tab.Navigator
@@ -30,31 +33,55 @@ function RootTabs() {
             iconName = focused ? 'cart' : 'cart-outline';
           } else if (route.name === 'Lịch sử') {
             iconName = focused ? 'receipt' : 'receipt-outline';
+          } else if (route.name === 'Tài khoản') {
+            iconName = focused ? 'person' : 'person-outline';
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName || 'ellipse'} size={size} color={color} />;
         },
       })}
     >
-      <Tab.Screen name="Thực đơn" component={MenuScreen} />
+      <Tab.Screen
+        name="Thực đơn"
+        component={MenuScreen}
+        options={{
+          headerTitle: '🧋 Trà Sữa & Cà Phê',
+        }}
+      />
       <Tab.Screen
         name="Giỏ hàng"
         component={CartScreen}
         options={{
           tabBarBadge: cart.length > 0 ? cart.length : null,
           tabBarBadgeStyle: { backgroundColor: '#e74c3c', fontSize: 11 },
+          headerTitle: '🛒 Giỏ Hàng Của Bạn',
         }}
       />
-      <Tab.Screen name="Lịch sử" component={HistoryScreen} />
+      <Tab.Screen
+        name="Lịch sử"
+        component={HistoryScreen}
+        options={{
+          headerTitle: '📜 Lịch Sử Đơn Hàng',
+        }}
+      />
+      <Tab.Screen
+        name="Tài khoản"
+        component={AuthScreen}
+        options={{
+          headerTitle: isLoggedIn ? `👤 Tài Khoản (${user?.name || ''})` : '🔐 Đăng Nhập / Đăng Ký',
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <CartProvider>
-      <NavigationContainer>
-        <RootTabs />
-      </NavigationContainer>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <NavigationContainer>
+          <RootTabs />
+        </NavigationContainer>
+      </CartProvider>
+    </AuthProvider>
   );
 }

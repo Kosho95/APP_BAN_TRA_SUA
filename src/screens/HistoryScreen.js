@@ -14,6 +14,7 @@ import {
   Platform,
 } from 'react-native';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 // Dùng 10.0.2.2 cho máy ảo Android Studio, localhost cho trình duyệt web
 const BASE_URL = Platform.select({
@@ -22,21 +23,33 @@ const BASE_URL = Platform.select({
 });
 
 export default function HistoryScreen({ route }) {
-  const [phone, setPhone] = useState(route.params?.phone || '');
+  const { user } = useAuth();
+  const initialPhone = route.params?.phone || user?.phone || '';
+  const [phone, setPhone] = useState(initialPhone);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchOrders = async () => {
-    if (!phone.trim()) {
+  // Tự động cập nhật và tra cứu khi có thông tin người dùng
+  useEffect(() => {
+    const targetPhone = route.params?.phone || user?.phone;
+    if (targetPhone) {
+      setPhone(targetPhone);
+      fetchOrders(targetPhone);
+    }
+  }, [route.params?.phone, user?.phone]);
+
+  const fetchOrders = async (phoneToQuery = phone) => {
+    const cleanPhone = (phoneToQuery || '').trim();
+    if (!cleanPhone) {
       Alert.alert('Nhập SĐT', 'Vui lòng nhập số điện thoại để tra cứu.');
       return;
     }
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/get_orders.php?phone=${phone.trim()}`);
+      const response = await fetch(`${BASE_URL}/get_orders.php?phone=${encodeURIComponent(cleanPhone)}`);
       const json = await response.json();
       if (json.status === 'success') {
-        setOrders(json.data);
+        setOrders(json.data || []);
       } else {
         Alert.alert('Thông báo', json.message || 'Không tìm thấy đơn hàng.');
       }
@@ -57,7 +70,7 @@ export default function HistoryScreen({ route }) {
           value={phone}
           onChangeText={setPhone}
         />
-        <TouchableOpacity style={styles.searchBtn} onPress={fetchOrders}>
+        <TouchableOpacity style={styles.searchBtn} onPress={() => fetchOrders(phone)}>
           <Text style={{ color: '#fff', fontWeight: 'bold' }}>Tra cứu</Text>
         </TouchableOpacity>
       </View>

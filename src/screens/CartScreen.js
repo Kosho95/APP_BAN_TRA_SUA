@@ -14,6 +14,8 @@ import {
   Platform,
 } from 'react-native';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { Ionicons } from '@expo/vector-icons';
 
 // Dùng 10.0.2.2 cho máy ảo Android Studio, localhost cho trình duyệt web
 const BASE_URL = Platform.select({
@@ -30,10 +32,21 @@ const VOUCHERS = {
 
 export default function CartScreen({ navigation }) {
   const { cart, removeFromCart, clearCart, getTotalAmount } = useCart();
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
+  const { user, isLoggedIn } = useAuth();
+
+  const [name, setName] = useState(user?.name || '');
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [address, setAddress] = useState(user?.address || '');
   const [orderNote, setOrderNote] = useState('');
+
+  // Tự động điền thông tin khi đăng nhập
+  useEffect(() => {
+    if (user) {
+      if (user.name) setName(user.name);
+      if (user.phone) setPhone(user.phone);
+      if (user.address) setAddress(user.address);
+    }
+  }, [user]);
 
   // Voucher
   const [voucherCode, setVoucherCode] = useState('');
@@ -176,7 +189,27 @@ export default function CartScreen({ navigation }) {
           )}
 
           {/* Thông tin giao hàng */}
-          <Text style={[styles.sectionHeader, { marginTop: 14 }]}>Thông tin nhận hàng</Text>
+          <View style={styles.sectionHeaderRow}>
+            <Text style={styles.sectionHeader}>Thông tin nhận hàng</Text>
+            {isLoggedIn && user ? (
+              <View style={styles.userBadge}>
+                <Ionicons name="person-circle" size={15} color="#27ae60" />
+                <Text style={styles.userBadgeText}>{user.name}</Text>
+              </View>
+            ) : null}
+          </View>
+
+          {!isLoggedIn && (
+            <TouchableOpacity
+              style={styles.guestNotice}
+              onPress={() => navigation.navigate('Tài khoản')}
+            >
+              <Ionicons name="log-in-outline" size={16} color="#d35400" />
+              <Text style={styles.guestNoticeText}>
+                Đăng nhập để tự động điền & lưu lịch sử
+              </Text>
+            </TouchableOpacity>
+          )}
           <TextInput
             placeholder="Họ và tên người nhận"
             style={styles.input}
@@ -248,7 +281,45 @@ const styles = StyleSheet.create({
   itemPrice: { fontSize: 14, fontWeight: 'bold', color: '#d35400', marginTop: 4 },
   deleteBtn: { justifyContent: 'center', paddingHorizontal: 8 },
   formCard: { backgroundColor: '#fff', padding: 14, borderRadius: 8, marginTop: 10, marginBottom: 30, elevation: 2 },
-  sectionHeader: { fontSize: 15, fontWeight: 'bold', marginBottom: 8, color: '#333' },
+  sectionHeader: { fontSize: 15, fontWeight: 'bold', color: '#333' },
+  sectionHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 14,
+    marginBottom: 8,
+  },
+  userBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e8f8f5',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 12,
+    gap: 4,
+  },
+  userBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#27ae60',
+  },
+  guestNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff7ed',
+    borderWidth: 1,
+    borderColor: '#ffedd5',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    marginBottom: 10,
+    gap: 6,
+  },
+  guestNoticeText: {
+    fontSize: 12,
+    color: '#d35400',
+    fontWeight: '500',
+  },
   voucherBox: { flexDirection: 'row', gap: 8 },
   voucherInput: { flex: 1, borderWidth: 1, borderColor: '#ddd', borderRadius: 6, paddingHorizontal: 10, height: 40 },
   voucherBtn: { backgroundColor: '#27ae60', paddingHorizontal: 16, justifyContent: 'center', borderRadius: 6 },
