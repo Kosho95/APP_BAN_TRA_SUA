@@ -115,7 +115,7 @@ export default function LoginModal({
     const demoUser = {
       id: 99,
       name: 'Nguyễn Quốc Thái (Khách VIP)',
-      phone: '0912.345.678',
+      phone: '0365565270',
       points: 8,
       tier: 'Thành Viên Vàng 👑',
       joinedDate: '10/2026',
@@ -129,7 +129,7 @@ export default function LoginModal({
   const triggerConfetti = () => {
     try {
       confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
-    } catch (err) {}
+    } catch (err) { }
   };
 
   return (

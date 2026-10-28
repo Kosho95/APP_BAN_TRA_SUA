@@ -155,7 +155,8 @@ export default function CheckoutModal({
           borderRadius: 'var(--radius-lg)',
           width: '100%',
           maxWidth: '560px',
-          maxHeight: '92vh',
+          maxHeight: '90vh',
+          height: '90vh',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -323,12 +324,20 @@ export default function CheckoutModal({
           </div>
         ) : (
           /* TRƯỜNG HỢP 2: FORM ĐIỀN THÔNG TIN ĐẶT HÀNG */
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <form onSubmit={handleSubmit} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            minHeight: 0,
+            height: '100%',
+            overflow: 'hidden'
+          }}>
             {/* Header Form */}
             <div style={{
-              padding: '22px 28px',
+              padding: '20px 24px',
               borderBottom: '1px solid var(--border-light)',
-              backgroundColor: 'var(--bg-surface-soft)'
+              backgroundColor: 'var(--bg-surface-soft)',
+              flexShrink: 0
             }}>
               <h3 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-dark)' }}>
                 Xác Nhận Đặt Hàng Trà Sữa 🧋
@@ -340,9 +349,10 @@ export default function CheckoutModal({
 
             {/* Nội dung các ô nhập */}
             <div style={{
-              padding: '22px 28px',
+              padding: '20px 24px',
               overflowY: 'auto',
               flex: 1,
+              minHeight: 0,
               display: 'flex',
               flexDirection: 'column',
               gap: '16px'
@@ -707,9 +717,10 @@ export default function CheckoutModal({
 
             {/* Footer Nút Đặt */}
             <div style={{
-              padding: '18px 28px',
+              padding: '16px 24px',
               borderTop: '1px solid var(--border-light)',
-              backgroundColor: '#fff'
+              backgroundColor: '#fff',
+              flexShrink: 0
             }}>
               <button
                 type="submit"
