@@ -1,0 +1,272 @@
+/* ====================================================================
+   COZY MILK TEA DESIGN SYSTEM - THEME PASTEL TRÀ SỮA ẤM CÚNG
+   ==================================================================== */
+
+:root {
+  /* Bảng màu Trà Sữa Pastel */
+  --bg-app: #FFFBF5;
+  --bg-surface: #FFFFFF;
+  --bg-surface-soft: #FAF4EB;
+  --bg-cream: #F5ECE0;
+
+  /* Nâu Trà Sữa & Caramel */
+  --primary-700: #4E342E;
+  --primary-600: #5D4037;
+  --primary-500: #795548;
+  --primary-400: #8D6E63;
+  --primary-200: #D7CCC8;
+  --primary-100: #EFEBE9;
+  --primary-50: #F7F5F2;
+
+  /* Cam Đào & Trà Hoa Quả */
+  --accent-orange: #FF7043;
+  --accent-orange-hover: #F4511E;
+  --accent-orange-light: #FFF3E0;
+  --accent-pink: #F06292;
+  --accent-pink-light: #FCE4EC;
+
+  /* Xanh Matcha & Trà Xanh */
+  --matcha-green: #2E7D32;
+  --matcha-light: #E8F5E9;
+
+  /* Text Colors */
+  --text-dark: #3E2723;
+  --text-body: #5D4037;
+  --text-muted: #8D6E63;
+  --text-light: #A1887F;
+  --text-white: #FFFFFF;
+
+  /* Borders & Dividers */
+  --border-light: #F0EAE1;
+  --border-soft: #E5DDD3;
+  --border-focus: #795548;
+
+  /* Shadows (Mây mềm mại) */
+  --shadow-sm: 0 2px 8px rgba(121, 85, 72, 0.05);
+  --shadow-md: 0 8px 24px -4px rgba(121, 85, 72, 0.08), 0 3px 8px -2px rgba(121, 85, 72, 0.04);
+  --shadow-lg: 0 16px 36px -6px rgba(121, 85, 72, 0.12), 0 6px 16px -3px rgba(121, 85, 72, 0.06);
+  --shadow-xl: 0 24px 50px -10px rgba(93, 64, 55, 0.22);
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* CSS Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Quicksand', 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-dark);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-200);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-400);
+}
+
+/* Skeleton Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #F3ECE2 25%, #EBE2D5 50%, #F3ECE2 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+/* Bounce & Pulse Animations */
+@keyframes badgeBounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.22);
+  }
+}
+
+.badge-bounce {
+  animation: badgeBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast {
+  animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-modal {
+  animation: modalFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ====================================================================
+   LAYOUT & BỐ CỤC LƯỚI SẢN PHẨM RÕ RÀNG, CHUẨN ĐẸP
+   ==================================================================== */
+.container {
+  width: 100% !important;
+  max-width: 1260px !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+  box-sizing: border-box !important;
+}
+
+/* Grid sản phẩm chia cột rõ ràng: 4 cột trên Desktop, 3 cột trên Laptop, 2 cột trên Tablet */
+.products-grid {
+  display: grid !important;
+  width: 100% !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 24px !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 1180px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .products-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+}
+
+/* Print Utilities */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-receipt,
+  #printable-receipt * {
+    visibility: visible;
+  }
+
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0 auto;
+    padding: 10px;
+    background: #fff;
+    color: #000;
+    font-size: 12px;
+  }
+}
