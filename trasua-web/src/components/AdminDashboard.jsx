@@ -410,6 +410,20 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
   }
 
   // GIAO DIỆN QUẢN TRỊ ADMIN SPA HOÀN CHỈNH
+
+  // Nhận diện phương thức nhận món cho đơn hàng
+  const getFulfillmentBadge = (order) => {
+    const addr = (order.customer_address || order.delivery_address || '').toLowerCase();
+    const note = (order.note || '').toLowerCase();
+    if (order.fulfillment_type === 'pickup' || addr.includes('mang đi') || note.includes('mang đi')) {
+      return { label: '🛍️ Mang đi', bg: '#FFF3E0', color: '#d35400' };
+    }
+    if (order.fulfillment_type === 'dinein' || addr.includes('tại quán') || note.includes('tại quán') || order.table_number) {
+      return { label: `🪑 Tại quán ${order.table_number ? '• ' + order.table_number : ''}`, bg: '#E8F5E9', color: '#2E7D32' };
+    }
+    return { label: '🛵 Giao tận nơi', bg: '#E3F2FD', color: '#1565C0' };
+  };
+
   const stats = adminData?.stats || {
     total_orders: 0,
     pending_orders: 0,
@@ -992,10 +1006,25 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
                             flexWrap: 'wrap',
                             gap: '10px'
                           }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                               <span style={{ fontSize: '18px', fontWeight: 800, color: '#3E2723' }}>
                                 Đơn hàng #{order.id}
                               </span>
+                              {(() => {
+                                const fBadge = getFulfillmentBadge(order);
+                                return (
+                                  <span style={{
+                                    fontSize: '11.5px',
+                                    fontWeight: 800,
+                                    padding: '3px 10px',
+                                    borderRadius: '12px',
+                                    backgroundColor: fBadge.bg,
+                                    color: fBadge.color
+                                  }}>
+                                    {fBadge.label}
+                                  </span>
+                                );
+                              })()}
                               <span style={{ fontSize: '12px', color: '#8D6E63' }}>
                                 {order.created_at || 'Vừa xong'}
                               </span>
@@ -1474,3 +1503,4 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
     </div>
   );
 }
+

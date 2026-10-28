@@ -9,6 +9,17 @@ export default function PrintBillModal({ isOpen, onClose, orderData }) {
   const totalAmount = orderData.total_price || orderData.total_amount || orderData.finalTotal || 0;
   const items = orderData.items || orderData.cart || [];
 
+  // Xác định hình thức nhận món
+  const addr = (orderData.customer_address || orderData.delivery_address || '').toLowerCase();
+  const noteText = (orderData.note || '').toLowerCase();
+
+  let fulfillmentTitle = '🛵 GIAO HÀNG TẬN NƠI';
+  if (orderData.fulfillment_type === 'pickup' || addr.includes('mang đi') || noteText.includes('mang đi')) {
+    fulfillmentTitle = '🛍️ ĐẾN MANG ĐI (TAKEAWAY)';
+  } else if (orderData.fulfillment_type === 'dinein' || addr.includes('tại quán') || noteText.includes('tại quán') || orderData.table_number) {
+    fulfillmentTitle = `🪑 UỐNG TẠI QUÁN • ${orderData.table_number || 'TẠI BÀN'}`;
+  }
+
   const handlePrint = () => {
     window.print();
   };
@@ -110,7 +121,21 @@ export default function PrintBillModal({ isOpen, onClose, orderData }) {
               margin: '10px auto',
               borderBottom: '1px dashed #333'
             }} />
-            <h3 style={{ fontSize: '15px', fontWeight: 800 }}>PHIẾU GIAO HÀNG & THU NGÂN</h3>
+
+            {/* Banner Hình thức nhận món cực nổi bật trên bill */}
+            <div style={{
+              fontSize: '14px',
+              fontWeight: 900,
+              backgroundColor: '#eee',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              display: 'inline-block',
+              margin: '4px 0'
+            }}>
+              {fulfillmentTitle}
+            </div>
+
+            <div style={{ fontSize: '15px', fontWeight: 800, marginTop: '4px' }}>PHIẾU THU NGÂN & PHA CHẾ</div>
             <div style={{ fontSize: '12px', fontWeight: 700 }}>MÃ ĐƠN: #DH{orderId}</div>
             <div style={{ fontSize: '11px', color: '#666' }}>Thời gian: {currentDate}</div>
           </div>
@@ -119,8 +144,8 @@ export default function PrintBillModal({ isOpen, onClose, orderData }) {
           <div style={{ marginBottom: '10px', fontSize: '12px' }}>
             <div>Khách hàng: <strong>{orderData.customer_name || 'Khách vãng lai'}</strong></div>
             <div>SĐT: <strong>{orderData.customer_phone || '---'}</strong></div>
-            <div>Địa chỉ: {orderData.delivery_address || 'Tại quán'}</div>
-            {orderData.note && <div style={{ fontStyle: 'italic', color: '#555' }}>Ghi chú: {orderData.note}</div>}
+            <div>Vị trí / ĐC: {orderData.customer_address || orderData.delivery_address || 'Nhận tại quầy'}</div>
+            {orderData.note && <div style={{ fontStyle: 'italic', color: '#555', marginTop: '3px' }}>Ghi chú: {orderData.note}</div>}
           </div>
 
           <div style={{ borderBottom: '1px dashed #333', marginBottom: '8px' }} />
@@ -138,7 +163,7 @@ export default function PrintBillModal({ isOpen, onClose, orderData }) {
               {items.map((it, idx) => {
                 const name = it.product_name || it.name;
                 const qty = it.quantity || 1;
-                const sub = it.subtotal || (it.unit_price * qty);
+                const sub = it.subtotal || (it.unit_price * qty) || it.price;
                 const desc = it.toppings_text || (it.toppings ? it.toppings.join(', ') : '');
 
                 return (
@@ -159,6 +184,12 @@ export default function PrintBillModal({ isOpen, onClose, orderData }) {
 
           {/* Tính tiền */}
           <div style={{ fontSize: '13px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {orderData.shipping_fee > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#555' }}>
+                <span>Phí giao hàng:</span>
+                <span>{formatVND(orderData.shipping_fee)}</span>
+              </div>
+            )}
             {orderData.discount > 0 && (
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#c0392b' }}>
                 <span>Giảm giá voucher:</span>

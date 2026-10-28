@@ -164,7 +164,7 @@ export default function App() {
   // Lọc sản phẩm theo danh mục và tìm kiếm tức thì
   const filteredProducts = products.filter(p => {
     const matchCategory = selectedCategoryId === null || Number(p.category_id) === Number(selectedCategoryId);
-    const matchSearch = !searchQuery.trim() || 
+    const matchSearch = !searchQuery.trim() ||
       p.name.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
       (p.description && p.description.toLowerCase().includes(searchQuery.trim().toLowerCase()));
     return matchCategory && matchSearch;
@@ -462,7 +462,7 @@ export default function App() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13px', color: 'var(--text-body)' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                   <MapPin size={16} color="var(--primary-600)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span>280 An Dương Vương, Phường 4, Quận 5, TP. Hồ Chí Minh</span>
+                  <span>Phường Trảng Bom, Thành Phố Đồng Nai</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Phone size={16} color="var(--primary-600)" style={{ flexShrink: 0 }} />
