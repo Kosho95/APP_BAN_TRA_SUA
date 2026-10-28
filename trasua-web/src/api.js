@@ -29,7 +29,7 @@ export const MOCK_BACKUP_DATA = {
       category_id: 1,
       name: "Trà sữa Truyền thống Trân châu đen",
       base_price: 35000,
-      image_url: "https://images.unsplash.com/photo-1558857563-b37cf5b62b1a?w=600",
+      image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQz4ikPf4TKWBpUkXV23Ig3yAQUUTFZXmiRT-SYqM9IQ&s=10",
       description: "Vị hồng trà đậm đà béo ngậy hòa quyện cùng trân châu đen dẻo dai mật ong."
     },
     {
@@ -145,7 +145,7 @@ export async function fetchMenuData() {
 
     if (!res.ok) throw new Error(`HTTP error ${res.status}`);
     const data = await res.json();
-    
+
     if (data.status === 'success' && data.data) {
       return {
         source: 'live_api',
@@ -231,7 +231,7 @@ function saveLocalOrderHistory(order) {
     const list = JSON.parse(localStorage.getItem('LOCAL_ORDERS') || '[]');
     list.unshift(order);
     localStorage.setItem('LOCAL_ORDERS', JSON.stringify(list.slice(0, 30)));
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function getLocalOrderHistory(phone) {
@@ -285,4 +285,176 @@ export async function registerUser({ name, phone, password, address }) {
   } catch (err) {
     return { status: 'error', message: 'Không thể kết nối đến máy chủ.' };
   }
+}
+
+
+// ====================================================================
+// CÁC HÀM API QUẢN TRỊ VIÊN (ADMIN DASHBOARD API)
+// ====================================================================
+
+// Lấy toàn bộ dữ liệu quản trị (Thống kê, Đơn hàng, Món, Topping, Khách hàng)
+export async function fetchAdminData() {
+  const baseUrl = getApiBaseUrl();
+  try {
+    const res = await fetch(`${baseUrl}/admin_api.php?action=get_data`, {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      signal: AbortSignal.timeout(6000)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.status === 'success') {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn('[Admin API] Lỗi tải dữ liệu admin từ API:', err.message);
+  }
+
+  // Dữ liệu dự phòng khi chưa bật XAMPP
+  return {
+    status: 'success',
+    stats: {
+      total_orders: 12,
+      pending_orders: 3,
+      processing_orders: 2,
+      completed_orders: 7,
+      total_products: MOCK_BACKUP_DATA.products.length,
+      total_revenue: 468000,
+      total_users: 8
+    },
+    categories: MOCK_BACKUP_DATA.categories,
+    products: MOCK_BACKUP_DATA.products,
+    toppings: MOCK_BACKUP_DATA.toppings,
+    orders: [
+      {
+        id: 1001,
+        customer_name: 'Nguyễn Văn Anh',
+        customer_phone: '0912345678',
+        customer_address: '280 An Dương Vương, Q5',
+        total_amount: 85000,
+        status: 'Đang xử lý',
+        payment_method: 'vietqr',
+        created_at: '2026-10-28 14:30:00',
+        note: 'Ít đá 50%, nhiều trân châu',
+        items: [
+          { product_name: 'Trà sữa Oolong Nướng', quantity: 2, price: 38000, size: 'L' }
+        ]
+      },
+      {
+        id: 1002,
+        customer_name: 'Trần Thị Mai',
+        customer_phone: '0988776655',
+        customer_address: '123 Nguyễn Trãi, Q1',
+        total_amount: 58000,
+        status: 'Đang pha chế',
+        payment_method: 'cod',
+        created_at: '2026-10-28 14:15:00',
+        note: '',
+        items: [
+          { product_name: 'Cà phê Muối Cố Đô', quantity: 1, price: 30000, size: 'M' },
+          { product_name: 'Bạc xỉu Sữa Dừa Đá', quantity: 1, price: 28000, size: 'M' }
+        ]
+      }
+    ],
+    users: [
+      { id: 1, name: 'Nguyễn Văn Anh', phone: '0912345678', address: '280 An Dương Vương, Q5', created_at: '2026-10-25' },
+      { id: 2, name: 'Trần Thị Mai', phone: '0988776655', address: '123 Nguyễn Trãi, Q1', created_at: '2026-10-26' }
+    ]
+  };
+}
+
+// Cập nhật trạng thái đơn hàng (Đang xử lý -> Đang pha chế -> Đang giao -> Đã hoàn thành -> Đã hủy)
+export async function updateAdminOrderStatus(orderId, newStatus) {
+  const baseUrl = getApiBaseUrl();
+  try {
+    const res = await fetch(`${baseUrl}/admin_api.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'update_order_status',
+        order_id: Number(orderId),
+        status: newStatus
+      }),
+      signal: AbortSignal.timeout(5000)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (err) {
+    console.warn('[Admin API] Lỗi cập nhật đơn:', err.message);
+  }
+  return { status: 'success', message: `(Offline) Đã cập nhật trạng thái đơn #${orderId} thành "${newStatus}"!` };
+}
+
+// Thêm món mới vào thực đơn
+export async function addAdminProduct({ category_id, name, price, image_url, description }) {
+  const baseUrl = getApiBaseUrl();
+  try {
+    const res = await fetch(`${baseUrl}/admin_api.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'add_product',
+        category_id: Number(category_id),
+        name: name.trim(),
+        price: Number(price),
+        image_url: image_url.trim(),
+        description: (description || '').trim()
+      }),
+      signal: AbortSignal.timeout(5000)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[Admin API] Lỗi thêm món:', err.message);
+  }
+  return { status: 'success', message: `(Offline) Đã thêm món "${name}" thành công!` };
+}
+
+// Xóa món khỏi thực đơn
+export async function deleteAdminProduct(productId) {
+  const baseUrl = getApiBaseUrl();
+  try {
+    const res = await fetch(`${baseUrl}/admin_api.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'delete_product',
+        product_id: Number(productId)
+      }),
+      signal: AbortSignal.timeout(5000)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[Admin API] Lỗi xóa món:', err.message);
+  }
+  return { status: 'success', message: `(Offline) Đã xóa món #${productId} thành công!` };
+}
+
+// Thêm topping mới
+export async function addAdminTopping({ name, price }) {
+  const baseUrl = getApiBaseUrl();
+  try {
+    const res = await fetch(`${baseUrl}/admin_api.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'add_topping',
+        name: name.trim(),
+        price: Number(price)
+      }),
+      signal: AbortSignal.timeout(5000)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    console.warn('[Admin API] Lỗi thêm topping:', err.message);
+  }
+  return { status: 'success', message: `(Offline) Đã thêm topping "${name}" thành công!` };
 }

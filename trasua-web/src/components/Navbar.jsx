@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ShoppingBag, Clock, ExternalLink, Sparkles, X, Coffee } from 'lucide-react';
+import { Search, ShoppingBag, Clock, ExternalLink, Sparkles, X, Coffee, User, ShieldCheck } from 'lucide-react';
 import { formatVND } from '../api';
 
 export default function Navbar({
@@ -9,7 +9,10 @@ export default function Navbar({
   onOpenTracker,
   searchQuery,
   setSearchQuery,
-  adminUrl
+  adminUrl,
+  currentUser,
+  onOpenLogin,
+  onOpenAdmin
 }) {
   const [searchFocused, setSearchFocused] = useState(false);
 
@@ -132,6 +135,65 @@ export default function Navbar({
 
         {/* Right Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Nút Đăng nhập / Thẻ thành viên VIP */}
+          <button
+            onClick={onOpenLogin}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
+              padding: currentUser ? '6px 14px 6px 8px' : '9px 15px',
+              borderRadius: 'var(--radius-full)',
+              backgroundColor: currentUser ? 'var(--accent-orange-light)' : 'var(--bg-surface-soft)',
+              color: currentUser ? 'var(--accent-orange)' : 'var(--text-body)',
+              fontSize: '13px',
+              fontWeight: 700,
+              border: `1.5px solid ${currentUser ? 'rgba(255,112,67,0.35)' : 'var(--border-soft)'}`,
+              transition: 'all 0.2s ease',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            title={currentUser ? "Xem Thẻ tích điểm Cozy Loyalty" : "Đăng nhập khách hàng"}
+          >
+            {currentUser ? (
+              <>
+                <div style={{
+                  width: '26px',
+                  height: '26px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--accent-orange)',
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '13px'
+                }}>
+                  🧋
+                </div>
+                <span style={{ maxWidth: '110px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {currentUser.name}
+                </span>
+                <span style={{
+                  fontSize: '11px',
+                  padding: '2px 7px',
+                  backgroundColor: '#fff',
+                  borderRadius: '10px',
+                  color: 'var(--accent-orange)',
+                  fontWeight: 800,
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+                }}>
+                  ⭐ {currentUser.points || 7}
+                </span>
+              </>
+            ) : (
+              <>
+                <User size={16} color="var(--primary-600)" />
+                <span>Đăng Nhập</span>
+              </>
+            )}
+          </button>
+
           {/* Track Orders Button */}
           <button
             onClick={onOpenTracker}
@@ -152,40 +214,37 @@ export default function Navbar({
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-surface-soft)'}
           >
             <Clock size={16} color="var(--primary-500)" />
-            <span>Tra Cứu Đơn</span>
+            <span>Tra Cứu</span>
           </button>
 
-          {/* Admin Dashboard Link */}
-          <a
-            href={adminUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Admin Dashboard Button (SPA Direct Switch) */}
+          <button
+            onClick={onOpenAdmin}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
               padding: '9px 14px',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: 'var(--bg-surface-soft)',
-              color: 'var(--text-muted)',
+              backgroundColor: 'var(--primary-50)',
+              color: 'var(--primary-700)',
               fontSize: '13px',
-              fontWeight: 600,
-              border: '1px solid var(--border-soft)',
-              transition: 'all 0.2s ease'
+              fontWeight: 700,
+              border: '1px solid var(--primary-200)',
+              transition: 'all 0.2s ease',
+              cursor: 'pointer'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'var(--primary-100)';
-              e.currentTarget.style.color = 'var(--primary-700)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--bg-surface-soft)';
-              e.currentTarget.style.color = 'var(--text-muted)';
+              e.currentTarget.style.backgroundColor = 'var(--primary-50)';
             }}
-            title="Mở cổng Web Quản trị Admin"
+            title="Mở Bảng Điều Khiển Quản Trị Viên (SPA)"
           >
-            <ExternalLink size={15} />
+            <ShieldCheck size={16} color="var(--primary-600)" />
             <span>Quản Trị</span>
-          </a>
+          </button>
 
           {/* Cart Button */}
           <button
@@ -221,20 +280,19 @@ export default function Navbar({
                   className="badge-bounce"
                   style={{
                     position: 'absolute',
-                    top: '-8px',
-                    right: '-10px',
+                    top: '-9px',
+                    right: '-11px',
                     backgroundColor: 'var(--accent-orange)',
                     color: '#fff',
                     fontSize: '11px',
                     fontWeight: 800,
-                    minWidth: '18px',
+                    width: '18px',
                     height: '18px',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '0 4px',
-                    boxShadow: '0 2px 6px rgba(255, 112, 67, 0.4)'
+                    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
                   }}
                 >
                   {cartCount}
@@ -244,9 +302,11 @@ export default function Navbar({
             <span>Giỏ hàng</span>
             {cartTotal > 0 && (
               <span style={{
-                paddingLeft: '6px',
-                borderLeft: '1px solid rgba(255, 255, 255, 0.3)',
-                fontSize: '13px'
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                padding: '2px 8px',
+                borderRadius: '12px',
+                fontSize: '12px',
+                fontFamily: 'Quicksand, sans-serif'
               }}>
                 {formatVND(cartTotal)}
               </span>

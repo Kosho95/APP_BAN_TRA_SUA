@@ -8,11 +8,26 @@ import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import OrderTrackerModal from './components/OrderTrackerModal';
 import PrintBillModal from './components/PrintBillModal';
+import LoginModal from './components/LoginModal';
+import AdminDashboard from './components/AdminDashboard';
 import Toast from './components/Toast';
 import { fetchMenuData, getApiBaseUrl, setApiBaseUrl } from './api';
 import { Sparkles, CupSoda, Heart, Coffee, ShieldCheck, MapPin, Phone, Clock, Settings, RefreshCw } from 'lucide-react';
 
 export default function App() {
+  // State Chế độ Quản Trị Admin SPA
+  const [isAdminMode, setIsAdminMode] = useState(false);
+
+  // State Khách hàng Thành viên & Đăng nhập
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('COZY_CURRENT_USER') || 'null');
+    } catch (e) {
+      return null;
+    }
+  });
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
   // State Dữ liệu Menu & Danh mục
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -54,6 +69,15 @@ export default function App() {
     localStorage.setItem('SAVED_CART_ITEMS', JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // Lưu thông tin khách đăng nhập
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem('COZY_CURRENT_USER', JSON.stringify(currentUser));
+    } else {
+      localStorage.removeItem('COZY_CURRENT_USER');
+    }
+  }, [currentUser]);
+
   // Tính lại mức giảm giá khi mã voucher hoặc giỏ hàng thay đổi
   useEffect(() => {
     const subtotal = cartItems.reduce((s, i) => s + i.subtotal, 0);
@@ -86,7 +110,6 @@ export default function App() {
   // Thao tác Thêm món vào Giỏ
   const handleAddToCart = (customDrink) => {
     setCartItems((prev) => {
-      // Tìm xem đã có ly cùng loại, cùng size, đá, đường và topping chưa
       const existingIndex = prev.findIndex(item => item.id === customDrink.id);
       if (existingIndex > -1) {
         const next = [...prev];
@@ -97,7 +120,6 @@ export default function App() {
       return [...prev, customDrink];
     });
 
-    // Hiện toast thông báo dễ thương
     setToast({
       message: `Đã thêm ${customDrink.quantity}x ${customDrink.name} (Size ${customDrink.size}) vào giỏ! 🧋`
     });
@@ -139,7 +161,7 @@ export default function App() {
     setToast({ message: `Đã chọn mã ưu đãi: ${code} 🏷️` });
   };
 
-  // Lọc sản phẩm theo danh mục và tìm kiếm tức thì (Instant Live Filter)
+  // Lọc sản phẩm theo danh mục và tìm kiếm tức thì
   const filteredProducts = products.filter(p => {
     const matchCategory = selectedCategoryId === null || Number(p.category_id) === Number(selectedCategoryId);
     const matchSearch = !searchQuery.trim() || 
@@ -152,9 +174,32 @@ export default function App() {
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cartItems.reduce((sum, item) => sum + item.subtotal, 0);
 
-  // Link Web Quản Trị
+  // Link Web Quản Trị PHP Dự phòng
   const adminUrl = `${getApiBaseUrl()}/admin.php`;
 
+  // NẾU ĐANG Ở CHẾ ĐỘ QUẢN TRỊ ADMIN SPA: HIỂN THỊ ADMIN DASHBOARD
+  if (isAdminMode) {
+    return (
+      <>
+        <AdminDashboard
+          onExit={() => {
+            setIsAdminMode(false);
+            loadMenu(); // Reload menu khi thoát admin
+          }}
+          onOpenPrintBill={(order) => setPrintBillOrder(order)}
+        />
+
+        {/* Modal in hóa đơn thu ngân (nếu cần in từ admin) */}
+        <PrintBillModal
+          isOpen={Boolean(printBillOrder)}
+          onClose={() => setPrintBillOrder(null)}
+          orderData={printBillOrder}
+        />
+      </>
+    );
+  }
+
+  // GIAO DIỆN BÁN HÀNG DÀNH CHO KHÁCH
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* 1. THANH ĐIỀU HƯỚNG CỐ ĐỊNH (STICKY NAVBAR) */}
@@ -166,6 +211,9 @@ export default function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         adminUrl={adminUrl}
+        currentUser={currentUser}
+        onOpenLogin={() => setIsLoginOpen(true)}
+        onOpenAdmin={() => setIsAdminMode(true)}
       />
 
       {/* 2. HERO BANNER CHÀO MỪNG & VOUCHER DẠNG COUPON */}
@@ -326,6 +374,7 @@ export default function App() {
         cartItems={cartItems}
         discountAmount={discountAmount}
         couponCode={couponCode}
+        currentUser={currentUser}
         onOrderSuccess={() => {
           setCartItems([]);
           setCouponCode('');
@@ -352,10 +401,29 @@ export default function App() {
         orderData={printBillOrder}
       />
 
-      {/* 10. TOAST NOTIFICATION TRƯỢT NHẸ */}
+      {/* 10. MODAL ĐĂNG NHẬP & THẺ THÀNH VIÊN COZY CLUB */}
+      <LoginModal
+        isOpen={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
+        currentUser={currentUser}
+        onLogin={(u) => {
+          setCurrentUser(u);
+          setToast({ message: `Chào mừng ${u.name} đến với Cozy Milk Tea! 🧋` });
+        }}
+        onLogout={() => {
+          setCurrentUser(null);
+          setToast({ message: 'Đã đăng xuất tài khoản!' });
+        }}
+        onOpenTracker={(phone) => {
+          setTrackerPhone(phone);
+          setIsTrackerOpen(true);
+        }}
+      />
+
+      {/* 11. TOAST NOTIFICATION TRƯỢT NHẸ */}
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      {/* 11. FOOTER ẤM CÚNG */}
+      {/* 12. FOOTER ẤM CÚNG */}
       <footer style={{
         backgroundColor: '#fff',
         borderTop: '1px solid var(--border-light)',
@@ -415,26 +483,48 @@ export default function App() {
               <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: 1.5 }}>
                 Dành cho quản lý quán để theo dõi đơn hàng thời gian thực, in bill K80 và thêm món mới.
               </p>
-              <a
-                href={adminUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '9px 16px',
-                  borderRadius: 'var(--radius-full)',
-                  backgroundColor: 'var(--primary-600)',
-                  color: '#fff',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  boxShadow: 'var(--shadow-sm)'
-                }}
-              >
-                <span>Cổng Quản Trị Admin.php</span>
-                <span>↗</span>
-              </a>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <button
+                  onClick={() => setIsAdminMode(true)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '9px 16px',
+                    borderRadius: 'var(--radius-full)',
+                    backgroundColor: 'var(--primary-600)',
+                    color: '#fff',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    boxShadow: 'var(--shadow-sm)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <ShieldCheck size={16} />
+                  <span>Cổng Quản Trị SPA</span>
+                </button>
+
+                <a
+                  href={adminUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '9px 14px',
+                    borderRadius: 'var(--radius-full)',
+                    backgroundColor: 'var(--bg-surface-soft)',
+                    color: 'var(--text-body)',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    border: '1px solid var(--border-soft)'
+                  }}
+                >
+                  <span>admin.php</span>
+                  <span>↗</span>
+                </a>
+              </div>
               <div style={{ fontSize: '11px', color: 'var(--text-light)', marginTop: '8px' }}>
                 Trạng thái API: <span style={{ color: dataSource === 'live_api' ? 'var(--matcha-green)' : 'var(--accent-orange)', fontWeight: 700 }}>
                   {dataSource === 'live_api' ? '● Đang kết nối Online DB MySQL' : '● Chế độ Dự Phòng Offline'}

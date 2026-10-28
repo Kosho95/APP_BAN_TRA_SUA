@@ -9,6 +9,7 @@ export default function CheckoutModal({
   cartItems,
   discountAmount,
   couponCode,
+  currentUser,
   onOrderSuccess,
   onOpenTracker,
   onOpenPrintBill
@@ -27,6 +28,15 @@ export default function CheckoutModal({
   const [paymentMethod, setPaymentMethod] = useState('vietqr'); // 'vietqr' hoặc 'cod'
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderResult, setOrderResult] = useState(null); // { order_id, ... }
+
+  // Tự động điền thông tin nếu khách hàng đã đăng nhập
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.name && !customerName) setCustomerName(currentUser.name);
+      if (currentUser.phone && !customerPhone) setCustomerPhone(currentUser.phone);
+      if (currentUser.address && !deliveryAddress) setDeliveryAddress(currentUser.address);
+    }
+  }, [currentUser, isOpen]);
 
   // Tính tiền
   const itemsSubtotal = cartItems.reduce((sum, item) => sum + item.subtotal, 0);
