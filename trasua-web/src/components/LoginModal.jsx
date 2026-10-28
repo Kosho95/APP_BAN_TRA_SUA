@@ -114,7 +114,7 @@ export default function LoginModal({
   const handleDemoLogin = () => {
     const demoUser = {
       id: 99,
-      name: 'Nguyễn Văn Thái (Khách VIP)',
+      name: 'Nguyễn Quốc Thái (Khách VIP)',
       phone: '0912.345.678',
       points: 8,
       tier: 'Thành Viên Vàng 👑',
