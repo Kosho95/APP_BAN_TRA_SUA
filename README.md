@@ -1,6 +1,6 @@
 # ĐỒ ÁN: ỨNG DỤNG ĐẶT TRÀ SỮA & CÀ PHÊ TRỰC TUYẾN
 > Hệ thống đặt thức uống di động tích hợp cổng Web Quản trị thời gian thực.
-
+link demo: https://cozy-milk-tea.netlify.app/
 ---
 
 ## 1. THÔNG TIN ĐỀ TÀI & CÔNG NGHỆ
