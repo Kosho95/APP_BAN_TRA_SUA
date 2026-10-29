@@ -11,7 +11,7 @@ import PrintBillModal from './components/PrintBillModal';
 import LoginModal from './components/LoginModal';
 import AdminDashboard from './components/AdminDashboard';
 import Toast from './components/Toast';
-import { fetchMenuData, getApiBaseUrl, setApiBaseUrl } from './api';
+import { fetchMenuData, getApiBaseUrl, setApiBaseUrl, formatVND } from './api';
 import { Sparkles, CupSoda, Heart, Coffee, ShieldCheck, MapPin, Phone, Clock, Settings, RefreshCw } from 'lucide-react';
 
 export default function App() {
@@ -544,6 +544,52 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* 13. THANH GIỎ HÀNG NỔI Ở ĐÁY MÀN HÌNH ĐIỆN THOẠI (MOBILE BOTTOM CART BAR) */}
+      {cartCount > 0 && !isAdminMode && (
+        <div
+          className="mobile-bottom-cart-bar"
+          onClick={() => setIsCartOpen(true)}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '18px'
+            }}>
+              🧋
+            </div>
+            <div>
+              <div style={{ fontSize: '13.5px', fontWeight: 800 }}>
+                Giỏ hàng: {cartCount} ly
+              </div>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.85)' }}>
+                {formatVND(cartTotal)}
+              </div>
+            </div>
+          </div>
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            backgroundColor: 'var(--accent-orange)',
+            padding: '7px 15px',
+            borderRadius: 'var(--radius-full)',
+            fontSize: '13px',
+            fontWeight: 800,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.18)'
+          }}>
+            <span>Xem giỏ & Đặt</span>
+            <span>➔</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

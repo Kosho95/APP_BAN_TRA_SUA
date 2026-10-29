@@ -21,38 +21,41 @@ export default function Navbar({
       position: 'sticky',
       top: 0,
       zIndex: 40,
-      backgroundColor: 'rgba(255, 251, 245, 0.94)',
+      backgroundColor: 'rgba(255, 251, 245, 0.95)',
       backdropFilter: 'blur(12px)',
       borderBottom: '1px solid var(--border-light)',
       transition: 'all 0.2s ease'
     }}>
-      <div className="container" style={{
+      <div className="container navbar-container" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '76px',
-        gap: '20px'
+        gap: '14px'
       }}>
         {/* Brand Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <div
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', flexShrink: 0 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
           <div style={{
-            width: '46px',
-            height: '46px',
-            borderRadius: '14px',
+            width: '42px',
+            height: '42px',
+            borderRadius: '13px',
             backgroundColor: 'var(--primary-600)',
             color: '#fff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '24px',
+            fontSize: '22px',
             boxShadow: '0 4px 14px rgba(93, 64, 55, 0.25)',
-            transition: 'transform 0.2s'
+            flexShrink: 0
           }}>
             🧋
           </div>
           <div>
             <div style={{
-              fontSize: '20px',
+              fontSize: '18px',
               fontWeight: 800,
               fontFamily: 'Quicksand, sans-serif',
               color: 'var(--text-dark)',
@@ -61,30 +64,24 @@ export default function Navbar({
               alignItems: 'center',
               gap: '6px'
             }}>
-              Trà Sữa Tea & Coffee
+              Cozy Tea & Coffee
               <span style={{
-                fontSize: '11px',
-                padding: '2px 7px',
+                fontSize: '10px',
+                padding: '2px 6px',
                 backgroundColor: 'var(--accent-orange-light)',
                 color: 'var(--accent-orange)',
                 borderRadius: '20px',
                 fontWeight: 700
-              }}>Cozy</span>
+              }}>F&B</span>
             </div>
-            <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 500 }}>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>
               Hương Vị Đậm Đà • Pha Chế Tươi Mới
             </div>
           </div>
         </div>
 
-        {/* Live Search Bar */}
-        <div style={{
-          flex: 1,
-          maxWidth: '420px',
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center'
-        }}>
+        {/* 1. Live Search Bar trên Desktop */}
+        <div className="navbar-desktop-search">
           <Search size={18} style={{
             position: 'absolute',
             left: '14px',
@@ -133,8 +130,8 @@ export default function Navbar({
           )}
         </div>
 
-        {/* Right Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* 2. Right Actions trên Desktop */}
+        <div className="navbar-desktop-actions">
           {/* Nút Đăng nhập / Thẻ thành viên VIP */}
           <button
             onClick={onOpenLogin}
@@ -152,8 +149,6 @@ export default function Navbar({
               transition: 'all 0.2s ease',
               cursor: 'pointer'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             title={currentUser ? "Xem Thẻ tích điểm Cozy Loyalty" : "Đăng nhập khách hàng"}
           >
             {currentUser ? (
@@ -210,14 +205,12 @@ export default function Navbar({
               border: '1px solid var(--border-soft)',
               transition: 'all 0.2s ease'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-100)'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-surface-soft)'}
           >
             <Clock size={16} color="var(--primary-500)" />
             <span>Tra Cứu</span>
           </button>
 
-          {/* Admin Dashboard Button (SPA Direct Switch) */}
+          {/* Admin Dashboard Button */}
           <button
             onClick={onOpenAdmin}
             style={{
@@ -233,12 +226,6 @@ export default function Navbar({
               border: '1px solid var(--primary-200)',
               transition: 'all 0.2s ease',
               cursor: 'pointer'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--primary-100)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--primary-50)';
             }}
             title="Mở Bảng Điều Khiển Quản Trị Viên (SPA)"
           >
@@ -262,14 +249,6 @@ export default function Navbar({
               boxShadow: '0 4px 14px rgba(93, 64, 55, 0.25)',
               transition: 'all 0.2s ease',
               position: 'relative'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--primary-700)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--primary-600)';
-              e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -312,6 +291,160 @@ export default function Navbar({
               </span>
             )}
           </button>
+        </div>
+
+        {/* 3. Right Actions trên MOBILE (Gọn gàng bằng Icon, không bị tràn viền) */}
+        <div className="navbar-mobile-actions">
+          {/* Nút Đăng nhập / VIP trên điện thoại */}
+          <button
+            onClick={onOpenLogin}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: currentUser ? 'var(--accent-orange-light)' : 'var(--bg-surface-soft)',
+              color: currentUser ? 'var(--accent-orange)' : 'var(--primary-700)',
+              border: `1.5px solid ${currentUser ? 'var(--accent-orange)' : 'var(--border-soft)'}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative'
+            }}
+            title={currentUser ? currentUser.name : "Đăng nhập"}
+          >
+            {currentUser ? (
+              <span style={{ fontSize: '16px' }}>🧋</span>
+            ) : (
+              <User size={18} />
+            )}
+            {currentUser && (
+              <span style={{
+                position: 'absolute',
+                top: '-3px',
+                right: '-3px',
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--accent-orange)'
+              }} />
+            )}
+          </button>
+
+          {/* Nút Tra cứu đơn trên điện thoại */}
+          <button
+            onClick={onOpenTracker}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--bg-surface-soft)',
+              color: 'var(--primary-600)',
+              border: '1px solid var(--border-soft)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            title="Tra cứu đơn hàng"
+          >
+            <Clock size={18} />
+          </button>
+
+          {/* Nút Quản trị trên điện thoại */}
+          <button
+            onClick={onOpenAdmin}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--primary-50)',
+              color: 'var(--primary-700)',
+              border: '1px solid var(--primary-200)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            title="Bảng Quản Trị"
+          >
+            <ShieldCheck size={18} />
+          </button>
+
+          {/* Nút Giỏ hàng trên điện thoại */}
+          <button
+            onClick={onOpenCart}
+            style={{
+              height: '36px',
+              padding: '0 12px',
+              borderRadius: 'var(--radius-full)',
+              backgroundColor: 'var(--primary-600)',
+              color: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              position: 'relative'
+            }}
+          >
+            <ShoppingBag size={17} />
+            {cartCount > 0 && (
+              <span style={{
+                backgroundColor: 'var(--accent-orange)',
+                color: '#fff',
+                fontSize: '11px',
+                fontWeight: 800,
+                padding: '1px 6px',
+                borderRadius: '10px'
+              }}>
+                {cartCount}
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* 4. Thanh Tìm Kiếm Dành Riêng Cho Mobile (Chiếm full-width dòng 2, cực kỳ thoáng) */}
+      <div className="navbar-mobile-search">
+        <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
+          <Search size={16} style={{
+            position: 'absolute',
+            left: '12px',
+            color: 'var(--text-light)'
+          }} />
+          <input
+            type="text"
+            placeholder="Tìm món trà sữa, cà phê, topping..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              width: '100%',
+              height: '38px',
+              padding: '0 32px 0 36px',
+              borderRadius: 'var(--radius-full)',
+              border: '1.5px solid var(--border-soft)',
+              backgroundColor: '#fff',
+              color: 'var(--text-dark)',
+              fontSize: '13px',
+              outline: 'none',
+              boxShadow: 'var(--shadow-sm)'
+            }}
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                color: 'var(--text-light)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '18px',
+                height: '18px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--primary-100)'
+              }}
+            >
+              <X size={11} />
+            </button>
+          )}
         </div>
       </div>
     </header>

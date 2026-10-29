@@ -126,7 +126,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
       </div>
 
       {/* Nội dung thông tin món */}
-      <div style={{
+      <div className="product-card-body" style={{
         padding: '16px 18px 18px',
         display: 'flex',
         flexDirection: 'column',
@@ -148,7 +148,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             </span>
           )}
 
-          <h3 style={{
+          <h3 className="product-card-title" style={{
             fontSize: '16px',
             fontWeight: 700,
             color: 'var(--text-dark)',
@@ -163,7 +163,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             {product.name}
           </h3>
 
-          <p style={{
+          <p className="product-card-desc" style={{
             fontSize: '12.5px',
             color: 'var(--text-muted)',
             lineHeight: 1.45,
@@ -189,7 +189,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
         }}>
           <div>
             <span style={{ fontSize: '11px', color: 'var(--text-light)', display: 'block' }}>Giá từ</span>
-            <div style={{
+            <div className="product-card-price" style={{
               fontSize: '17px',
               fontWeight: 800,
               color: 'var(--primary-700)',
@@ -200,6 +200,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
           </div>
 
           <button
+            className="product-card-btn"
             onClick={() => onSelectProduct(product)}
             style={{
               display: 'flex',

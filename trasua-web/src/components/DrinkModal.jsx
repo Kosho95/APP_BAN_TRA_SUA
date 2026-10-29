@@ -81,7 +81,7 @@ export default function DrinkModal({
       overflowY: 'auto'
     }} onClick={onClose}>
       <div
-        className="animate-modal"
+        className="animate-modal drink-modal-box"
         onClick={(e) => e.stopPropagation()}
         style={{
           backgroundColor: '#fff',
@@ -90,7 +90,6 @@ export default function DrinkModal({
           maxWidth: '860px',
           maxHeight: '90vh',
           display: 'flex',
-          flexDirection: 'row',
           overflow: 'hidden',
           boxShadow: 'var(--shadow-xl)',
           position: 'relative'
@@ -121,8 +120,7 @@ export default function DrinkModal({
         </button>
 
         {/* CỘT TRÁI: Ảnh ly lớn & Giới thiệu hương vị */}
-        <div style={{
-          width: '38%',
+        <div className="drink-modal-left" style={{
           backgroundColor: 'var(--bg-surface-soft)',
           padding: '30px 24px',
           display: 'flex',
@@ -133,13 +131,13 @@ export default function DrinkModal({
           position: 'relative',
           overflow: 'hidden'
         }}>
-          <div style={{
-            width: '220px',
-            height: '220px',
+          <div className="drink-img-box" style={{
+            width: '200px',
+            height: '200px',
             borderRadius: 'var(--radius-md)',
             overflow: 'hidden',
             boxShadow: 'var(--shadow-md)',
-            marginBottom: '20px',
+            marginBottom: '16px',
             border: '4px solid #fff'
           }}>
             <img
@@ -150,47 +148,49 @@ export default function DrinkModal({
             />
           </div>
 
-          <h3 style={{
-            fontSize: '18px',
-            fontWeight: 800,
-            color: 'var(--text-dark)',
-            textAlign: 'center',
-            marginBottom: '8px'
-          }}>
-            {product.name}
-          </h3>
+          <div className="drink-text-box">
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: 800,
+              color: 'var(--text-dark)',
+              textAlign: 'center',
+              marginBottom: '6px'
+            }}>
+              {product.name}
+            </h3>
 
-          <p style={{
-            fontSize: '13px',
-            color: 'var(--text-muted)',
-            textAlign: 'center',
-            lineHeight: 1.5,
-            padding: '0 8px'
-          }}>
-            {product.description || 'Pha chế tươi mới chuẩn vị, nguyên liệu chọn lọc cao cấp.'}
-          </p>
+            <p style={{
+              fontSize: '13px',
+              color: 'var(--text-muted)',
+              textAlign: 'center',
+              lineHeight: 1.5,
+              padding: '0 8px'
+            }}>
+              {product.description || 'Pha chế tươi mới chuẩn vị, nguyên liệu chọn lọc cao cấp.'}
+            </p>
 
-          <div style={{
-            marginTop: '16px',
-            padding: '6px 14px',
-            backgroundColor: '#fff',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '12px',
-            fontWeight: 700,
-            color: 'var(--primary-600)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            boxShadow: 'var(--shadow-sm)'
-          }}>
-            <Sparkles size={14} color="var(--accent-orange)" />
-            <span>Tùy chỉnh theo khẩu vị</span>
+            <div className="drink-tag" style={{
+              marginTop: '14px',
+              padding: '6px 14px',
+              backgroundColor: '#fff',
+              borderRadius: 'var(--radius-full)',
+              fontSize: '12px',
+              fontWeight: 700,
+              color: 'var(--primary-600)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <Sparkles size={14} color="var(--accent-orange)" />
+              <span>Tùy chỉnh theo khẩu vị</span>
+            </div>
           </div>
         </div>
 
         {/* CỘT PHẢI: Các bước Tùy Chọn (Size, Đường, Đá, Topping, Ghi chú) */}
-        <div style={{
-          width: '62%',
+        <div className="drink-modal-right" style={{
           display: 'flex',
           flexDirection: 'column',
           maxHeight: '90vh'
@@ -216,10 +216,11 @@ export default function DrinkModal({
           </div>
 
           {/* Vùng cuộn các tùy chọn */}
-          <div style={{
+          <div className="modal-scroll-area" style={{
             padding: '20px 28px',
             overflowY: 'auto',
             flex: 1,
+            minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
             gap: '22px'

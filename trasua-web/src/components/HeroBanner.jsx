@@ -15,7 +15,7 @@ export default function HeroBanner({ onApplyCoupon, activeCoupon }) {
     }}>
       <div className="container">
         {/* Main Hero Card */}
-        <div style={{
+        <div className="hero-card" style={{
           background: 'linear-gradient(135deg, #FAF4EB 0%, #F5ECE0 60%, #EFE5D8 100%)',
           borderRadius: 'var(--radius-lg)',
           padding: '36px 40px',
@@ -60,7 +60,7 @@ export default function HeroBanner({ onApplyCoupon, activeCoupon }) {
               <span>Menu Mới Siêu Ngon & Đậm Vị</span>
             </div>
 
-            <h1 style={{
+            <h1 className="hero-title" style={{
               fontSize: '34px',
               fontWeight: 800,
               color: 'var(--text-dark)',

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   LayoutDashboard,
+  Menu,
+  X,
   ShoppingBag,
   Coffee,
   Users,
@@ -44,7 +46,8 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
   const [loginError, setLoginError] = useState('');
 
   // Tab đang chọn
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'orders' | 'menu' | 'customers'
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false); // 'dashboard' | 'orders' | 'menu' | 'customers'
 
   // Dữ liệu từ API
   const [adminData, setAdminData] = useState(null);
@@ -437,19 +440,39 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5ECE0' }}>
       {/* 1. SIDEBAR THANH ĐIỀU HƯỚNG TỐI MÀU COZY F&B */}
-      <aside style={{
-        width: '260px',
-        backgroundColor: '#2A170F',
-        color: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        flexShrink: 0,
-        position: 'sticky',
-        top: 0,
-        height: '100vh',
-        boxShadow: '4px 0 20px rgba(0,0,0,0.15)',
-        zIndex: 20
-      }}>
+      {/* Backdrop trên Mobile */}
+      {isMobileSidebarOpen && (
+        <div
+          onClick={() => setIsMobileSidebarOpen(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            zIndex: 90
+          }}
+        />
+      )}
+      <aside
+        className="admin-sidebar"
+        style={{
+          width: '260px',
+          backgroundColor: '#2A170F',
+          color: '#fff',
+          display: 'flex',
+          flexDirection: 'column',
+          flexShrink: 0,
+          position: window.innerWidth <= 860 ? 'fixed' : 'sticky',
+          top: 0,
+          left: window.innerWidth <= 860 ? (isMobileSidebarOpen ? 0 : '-280px') : 0,
+          height: '100vh',
+          boxShadow: '4px 0 20px rgba(0,0,0,0.25)',
+          zIndex: 100,
+          transition: 'left 0.28s cubic-bezier(0.16, 1, 0.3, 1)'
+        }}
+      >
         {/* Brand Header */}
         <div style={{
           padding: '24px 20px',
@@ -481,7 +504,7 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
         {/* Menu Navigation */}
         <nav style={{ padding: '20px 12px', display: 'flex', flexDirection: 'column', gap: '6px', flex: 1 }}>
           <button
-            onClick={() => setActiveTab('dashboard')}
+            onClick={() => { setActiveTab('dashboard'); setIsMobileSidebarOpen(false); }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -501,7 +524,7 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
           </button>
 
           <button
-            onClick={() => setActiveTab('orders')}
+            onClick={() => { setActiveTab('orders'); setIsMobileSidebarOpen(false); }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -535,7 +558,7 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
           </button>
 
           <button
-            onClick={() => setActiveTab('menu')}
+            onClick={() => { setActiveTab('menu'); setIsMobileSidebarOpen(false); }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -555,7 +578,7 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
           </button>
 
           <button
-            onClick={() => setActiveTab('customers')}
+            onClick={() => { setActiveTab('customers'); setIsMobileSidebarOpen(false); }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -619,19 +642,36 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         {/* Top Navbar */}
         <header style={{
-          height: '70px',
+          height: '64px',
           backgroundColor: '#fff',
           borderBottom: '1px solid #E5DDD3',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 32px',
+          padding: '0 16px',
           position: 'sticky',
           top: 0,
           zIndex: 15
         }}>
-          <div>
-            <h1 style={{ fontSize: '18px', fontWeight: 800, color: '#3E2723' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '36px',
+                height: '36px',
+                borderRadius: '8px',
+                backgroundColor: '#FAF4EB',
+                border: '1px solid #E5DDD3',
+                color: '#5D4037'
+              }}
+              title="Menu Admin"
+            >
+              {isMobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            <h1 style={{ fontSize: '16px', fontWeight: 800, color: '#3E2723' }}>
               {activeTab === 'dashboard' && '📊 Bảng Điều Khiển Tổng Quan'}
               {activeTab === 'orders' && '📋 Quản Lý Đơn Hàng Thời Gian Thực'}
               {activeTab === 'menu' && '🧋 Quản Lý Thực Đơn & Danh Mục'}
@@ -704,7 +744,7 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
         )}
 
         {/* Nội dung từng Tab */}
-        <main style={{ padding: '32px', flex: 1, overflowY: 'auto' }}>
+        <main style={{ padding: '16px', flex: 1, overflowY: 'auto' }}>
           {loading && !adminData ? (
             <div style={{ textAlign: 'center', padding: '60px 0', color: '#8D6E63' }}>
               <div style={{ fontSize: '36px', marginBottom: '10px' }}>⏳</div>
@@ -718,7 +758,7 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
                   {/* 4 Thẻ Thống Kê */}
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
                     gap: '20px'
                   }}>
                     {/* Thẻ 1: Doanh thu */}
@@ -823,7 +863,7 @@ export default function AdminDashboard({ onExit, onOpenPrintBill }) {
                         ⚡ Đơn Hàng Mới Nhất Vừa Nhận
                       </h3>
                       <button
-                        onClick={() => setActiveTab('orders')}
+                        onClick={() => { setActiveTab('orders'); setIsMobileSidebarOpen(false); }}
                         style={{ fontSize: '13px', color: '#d35400', fontWeight: 700 }}
                       >
                         Xem tất cả đơn →
