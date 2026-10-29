@@ -41,8 +41,7 @@ Hệ thống sử dụng cơ sở dữ liệu chung lưu trữ trực tuyến đ
 - **Host / IP Máy chủ:** `103.139.203.43`
 - **Cổng phpMyAdmin:** `887` (Đường dẫn: `http://103.139.203.43:887`)
 - **Tên Database:** `sql_nhom38_itimi`
-- **Tài khoản đăng nhập (Username):** `sql_nhom38_itimi`
-- **Mật khẩu (Password):** `af7d66ef605cd8`
+-
 - *(File cấu hình kết nối trực tiếp trong mã nguồn: `trasua_api/db.php`)*
 
 ---
