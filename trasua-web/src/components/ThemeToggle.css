@@ -301,3 +301,10 @@
     transition-delay: 0s;
   }
 }
+
+
+@media (max-width: 640px) {
+  .sun-moon-toggle-wrapper .switch {
+    font-size: 13.5px !important;
+  }
+}

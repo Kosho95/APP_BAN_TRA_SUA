@@ -42,7 +42,7 @@ export default function Navbar({
           style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', flexShrink: 0 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <div style={{
+          <div className="brand-logo-icon" style={{
             width: '42px',
             height: '42px',
             borderRadius: '13px',
@@ -58,7 +58,7 @@ export default function Navbar({
             🧋
           </div>
           <div>
-            <div style={{
+            <div className="brand-title-text" style={{
               fontSize: '18px',
               fontWeight: 800,
               fontFamily: 'Quicksand, sans-serif',
@@ -68,8 +68,8 @@ export default function Navbar({
               alignItems: 'center',
               gap: '6px'
             }}>
-              Cozy Tea & Coffee
-              <span style={{
+              <span>Cozy Tea</span>
+              <span className="brand-title-badge" style={{
                 fontSize: '10px',
                 padding: '2px 6px',
                 backgroundColor: 'var(--accent-orange-light)',
@@ -78,7 +78,7 @@ export default function Navbar({
                 fontWeight: 700
               }}>F&B</span>
             </div>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>
+            <div className="brand-subtitle" style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>
               Hương Vị Đậm Đà • Pha Chế Tươi Mới
             </div>
           </div>
@@ -309,6 +309,7 @@ export default function Navbar({
           {/* Nút Đăng nhập / VIP trên điện thoại */}
           <button
             onClick={onOpenLogin}
+            className="navbar-mobile-btn"
             style={{
               width: '36px',
               height: '36px',
@@ -344,6 +345,7 @@ export default function Navbar({
           {/* Nút Tra cứu đơn trên điện thoại */}
           <button
             onClick={onOpenTracker}
+            className="navbar-mobile-btn"
             style={{
               width: '36px',
               height: '36px',
@@ -363,6 +365,7 @@ export default function Navbar({
           {/* Nút Quản trị trên điện thoại */}
           <button
             onClick={onOpenAdmin}
+            className="navbar-mobile-btn"
             style={{
               width: '36px',
               height: '36px',
@@ -385,6 +388,7 @@ export default function Navbar({
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={onOpenCart}
+            className="navbar-mobile-cart-btn"
             style={{
               height: '36px',
               padding: '0 12px',
