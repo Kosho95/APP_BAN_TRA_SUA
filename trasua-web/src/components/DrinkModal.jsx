@@ -3,6 +3,7 @@ import { X, Plus, Minus, Check, ShoppingBag, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatVND } from '../api';
 import CreamDrip from './CreamDrip';
+import FluidButton from '@/components/lightswind/fluid-button';
 
 export default function DrinkModal({
   product,
@@ -485,33 +486,27 @@ export default function DrinkModal({
               </motion.button>
             </div>
 
-            {/* Nút Thêm Vào Giỏ với phản hồi lực đàn hồi */}
-            <motion.button
-              type="button"
-              whileHover={{ scale: 1.025 }}
-              whileTap={{ scale: 0.94 }}
-              transition={{ type: 'spring', stiffness: 450, damping: 18 }}
-              onClick={handleConfirm}
-              style={{
-                flex: 1,
-                padding: '13px 24px',
-                borderRadius: 'var(--radius-full)',
-                backgroundColor: 'var(--primary-600)',
-                color: '#fff',
-                fontWeight: 800,
-                fontSize: '15px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                border: 'none',
-                cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(93, 64, 55, 0.32)'
-              }}
-            >
-              <ShoppingBag size={18} />
-              <span>Thêm vào giỏ hàng • {formatVND(subtotal)}</span>
-            </motion.button>
+            {/* Nút Thêm Vào Giỏ FluidButton dòng chảy chất lỏng */}
+            <div style={{ flex: 1, display: 'flex' }}>
+              <FluidButton
+                type="button"
+                variant="milktea"
+                onClick={handleConfirm}
+                style={{
+                  width: '100%',
+                  padding: '14px 24px',
+                  fontSize: '15px',
+                  fontWeight: 800,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px'
+                }}
+              >
+                <ShoppingBag size={18} />
+                <span>Thêm vào giỏ hàng • {formatVND(subtotal)}</span>
+              </FluidButton>
+            </div>
           </div>
         </div>
       </motion.div>

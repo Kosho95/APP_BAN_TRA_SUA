@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Plus, Flame, Sparkles, Tag, Heart, Star, Coffee, CupSoda } from 'lucide-react';
+import { Plus, Flame, Sparkles, Tag, Heart, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { formatVND } from '../api';
+import FluidButton from '@/components/lightswind/fluid-button';
 
 export default function ProductCard({ product, categoryName, onSelectProduct }) {
   const [imgError, setImgError] = useState(false);
@@ -11,53 +12,53 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
   const id = Number(product.id) || 1;
   const catId = Number(product.category_id) || 1;
 
-  // 1. Phân loại Theme màu theo Danh mục sản phẩm (Nâu, Xanh Matcha, Cam Đào, Cà phê)
+  // 1. Phân loại Theme & Fluid Variant theo Danh mục sản phẩm
   const getCategoryTheme = () => {
     const name = (product.name || '').toLowerCase();
     const cat = (categoryName || '').toLowerCase();
 
     if (catId === 2 || name.includes('cà phê') || name.includes('bạc xỉu') || name.includes('americano')) {
       return {
-        accent: '#5D4037', // Nâu cà phê đậm đà
+        accent: '#5D4037',
         accentLight: '#F3ECE7',
-        badgeBg: 'linear-gradient(135deg, #6D4C41 0%, #3E2723 100%)',
         glow: 'rgba(93, 64, 55, 0.28)',
-        btnBg: 'linear-gradient(135deg, #6D4C41 0%, #4E342E 100%)',
+        btnBg: 'linear-gradient(135deg, #6D4C41 0%, #3E2723 100%)',
         emoji: '☕',
-        tagText: 'Cà Phê Nguyên Chất'
+        tagText: 'Cà Phê Nguyên Chất',
+        fluidVariant: 'coffee'
       };
     }
     if (name.includes('matcha') || catId === 4 || name.includes('đá xay') || cat.includes('matcha')) {
       return {
-        accent: '#2D6A4F', // Xanh Matcha Nhật Bản
+        accent: '#2D6A4F',
         accentLight: '#E8F5E9',
-        badgeBg: 'linear-gradient(135deg, #40916C 0%, #1B4332 100%)',
         glow: 'rgba(45, 106, 79, 0.28)',
-        btnBg: 'linear-gradient(135deg, #40916C 0%, #2D6A4F 100%)',
+        btnBg: 'linear-gradient(135deg, #40916C 0%, #1B4332 100%)',
         emoji: '🍃',
-        tagText: 'Matcha Uji Tươi'
+        tagText: 'Matcha Uji Tươi',
+        fluidVariant: 'matcha'
       };
     }
     if (catId === 3 || name.includes('trà đào') || name.includes('vải') || name.includes('mãng cầu') || name.includes('dâu')) {
       return {
-        accent: '#E07A5F', // Cam đào & Trái cây tươi ngọt ngào
+        accent: '#E07A5F',
         accentLight: '#FDF0ED',
-        badgeBg: 'linear-gradient(135deg, #F4A261 0%, #E76F51 100%)',
         glow: 'rgba(224, 122, 95, 0.3)',
-        btnBg: 'linear-gradient(135deg, #F4A261 0%, #E07A5F 100%)',
+        btnBg: 'linear-gradient(135deg, #F4A261 0%, #E76F51 100%)',
         emoji: '🍓',
-        tagText: 'Trái Cây Tươi Mọng'
+        tagText: 'Trái Cây Tươi Mọng',
+        fluidVariant: 'peach'
       };
     }
     // Mặc định: Trà Sữa Đậm Vị
     return {
-      accent: '#C27848', // Nâu trà sữa hoàng kim
+      accent: '#C27848',
       accentLight: '#FFF4ED',
-      badgeBg: 'linear-gradient(135deg, #D4A373 0%, #A97142 100%)',
       glow: 'rgba(194, 120, 72, 0.28)',
       btnBg: 'linear-gradient(135deg, #D4A373 0%, #B06C3B 100%)',
       emoji: '🧋',
-      tagText: 'Trà Sữa Đậm Vị'
+      tagText: 'Trà Sữa Đậm Vị',
+      fluidVariant: 'milktea'
     };
   };
 
@@ -91,7 +92,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundColor: '#FFFFFF', // NỀN TRẮNG TINH KHIẾT NỔI BẬT KHÔNG BỊ CHÌM VÀO MÀU BE
+        backgroundColor: '#FFFFFF',
         borderRadius: '20px',
         overflow: 'hidden',
         border: `1.5px solid ${isHovered ? theme.accent : 'rgba(121, 85, 72, 0.12)'}`,
@@ -106,7 +107,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
       }}
       onClick={() => onSelectProduct(product)}
     >
-      {/* VẠCH MÀU TRANG TRÍ ĐỈNH THẺ (ACCENT COLOR STRIP) */}
+      {/* VẠCH MÀU TRANG TRÍ ĐỈNH THẺ */}
       <div style={{ height: '4px', width: '100%', background: theme.btnBg }} />
 
       {/* CONTAINER ẢNH MÓN VỚI HIỆU ỨNG VỆT SÁNG LƯỚT QUA (SHIMMER) */}
@@ -258,7 +259,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             </span>
           </div>
 
-          {/* Tên Món - Chữ Đậm Nét Rõ Ràng */}
+          {/* Tên Món */}
           <h3 className="product-card-title" style={{
             fontSize: '16px',
             fontWeight: 800,
@@ -290,7 +291,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
           </p>
         </div>
 
-        {/* CHÂN THẺ: GIÁ TIỀN & NÚT CHỌN MÓN NỔI BẬT */}
+        {/* CHÂN THẺ: GIÁ TIỀN & NÚT CHỌN MÓN FLUID BUTTON */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -313,31 +314,17 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             </div>
           </div>
 
-          {/* NÚT CHỌN MÓN DẠNG GRADIENT THEO THEME VỚI HIỆU ỨNG NẨY */}
-          <motion.button
-            whileTap={{ scale: 0.92 }}
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 450, damping: 18 }}
-            className="product-card-btn"
-            onClick={() => onSelectProduct(product)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '9px 16px',
-              borderRadius: 'var(--radius-full)',
-              background: theme.btnBg,
-              color: '#FFFFFF',
-              fontSize: '13px',
-              fontWeight: 800,
-              border: 'none',
-              cursor: 'pointer',
-              boxShadow: `0 4px 14px ${theme.glow}`
+          {/* NÚT FLUID BUTTON VỚI HIỆU ỨNG DÒNG CHẢY TRÀ SỮA DÂNG LÊN */}
+          <FluidButton
+            variant={theme.fluidVariant}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelectProduct(product);
             }}
           >
             <Plus size={15} strokeWidth={3} />
             <span>Chọn món</span>
-          </motion.button>
+          </FluidButton>
         </div>
       </div>
     </motion.div>

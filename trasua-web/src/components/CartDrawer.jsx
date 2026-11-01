@@ -3,6 +3,7 @@ import { X, Trash2, Plus, Minus, ArrowRight, Tag, ShoppingBag, Sparkles } from '
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatVND } from '../api';
 import CreamDrip from './CreamDrip';
+import FluidButton from '@/components/lightswind/fluid-button';
 
 export default function CartDrawer({
   isOpen,
@@ -413,32 +414,26 @@ export default function CartDrawer({
               </div>
             </div>
 
-            {/* Nút Đặt Hàng */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: 'spring', stiffness: 450, damping: 18 }}
-              onClick={onProceedCheckout}
-              style={{
-                width: '100%',
-                padding: '14px',
-                borderRadius: 'var(--radius-full)',
-                backgroundColor: 'var(--primary-600)',
-                color: '#fff',
-                fontSize: '15px',
-                fontWeight: 800,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-                border: 'none',
-                cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(93, 64, 55, 0.32)'
-              }}
-            >
-              <span>Tiến hành Đặt hàng</span>
-              <ArrowRight size={18} />
-            </motion.button>
+            {/* Nút Đặt Hàng FluidButton */}
+            <div style={{ width: '100%', display: 'flex' }}>
+              <FluidButton
+                variant="milktea"
+                onClick={onProceedCheckout}
+                style={{
+                  width: '100%',
+                  padding: '15px',
+                  fontSize: '15px',
+                  fontWeight: 800,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px'
+                }}
+              >
+                <span>Tiến hành Đặt hàng</span>
+                <ArrowRight size={18} />
+              </FluidButton>
+            </div>
           </div>
         )}
       </motion.div>
