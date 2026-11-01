@@ -17,119 +17,355 @@ export function setApiBaseUrl(url) {
 // Dữ liệu dự phòng phong phú và chân thực (dựa trên CSDL MySQL thật)
 // Giúp trang web luôn hiển thị mượt mà ngay cả khi chưa kịp bật Apache XAMPP
 export const MOCK_BACKUP_DATA = {
-  categories: [
-    { id: 1, name: "Trà Sữa Đậm Vị" },
-    { id: 2, name: "Cà Phê & Macchiato" },
-    { id: 3, name: "Trà Trái Cây Tươi" },
-    { id: 4, name: "Đá Xay & Bánh Ngọt" }
-  ],
-  products: [
+  "categories": [
     {
-      id: 1,
-      category_id: 1,
-      name: "Trà sữa Truyền thống Trân châu đen",
-      base_price: 35000,
-      image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQz4ikPf4TKWBpUkXV23Ig3yAQUUTFZXmiRT-SYqM9IQ&s=10",
-      description: "Vị hồng trà đậm đà béo ngậy hòa quyện cùng trân châu đen dẻo dai mật ong."
+      "id": 1,
+      "name": "Trà sữa"
     },
     {
-      id: 2,
-      category_id: 1,
-      name: "Trà sữa Oolong Nướng",
-      base_price: 38000,
-      image_url: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=600",
-      description: "Hương vị nướng thơm lừng đặc trưng, vị ngọt thanh kết hợp kem sữa béo mịn."
+      "id": 2,
+      "name": "Cà phê"
     },
     {
-      id: 3,
-      category_id: 2,
-      name: "Cà phê Muối Cố Đô",
-      base_price: 30000,
-      image_url: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600",
-      description: "Cà phê pha phin truyền thống phủ lớp kem muối mằn mặn, béo ngậy mượt mà."
+      "id": 3,
+      "name": "Trà trái cây"
     },
     {
-      id: 4,
-      category_id: 2,
-      name: "Bạc xỉu Sữa Dừa Đá",
-      base_price: 28000,
-      image_url: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600",
-      description: "Nhiều sữa đặc ngọt dịu, nước cốt dừa thơm béo và chút cà phê thơm nồng."
+      "id": 4,
+      "name": "Đá xay - Freeze"
     },
     {
-      id: 5,
-      category_id: 1,
-      name: "Trà sữa Matcha Đậu đỏ",
-      base_price: 42000,
-      image_url: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600",
-      description: "Vị trà xanh Uji Nhật Bản thanh mát kết hợp đậu đỏ hầm bùi bùi dẻo quánh."
-    },
-    {
-      id: 6,
-      category_id: 1,
-      name: "Trà sữa Khoai môn Hoàng Kim",
-      base_price: 39000,
-      image_url: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=600",
-      description: "Hương khoai môn tự nhiên thơm bùi, màu tím pastel bắt mắt kích thích vị giác."
-    },
-    {
-      id: 7,
-      category_id: 1,
-      name: "Trà sữa Thái Xanh Kem Cheese",
-      base_price: 32000,
-      image_url: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600",
-      description: "Trà thái xanh thơm mát đậm đà, giải nhiệt cực đã trong ngày oi ả."
-    },
-    {
-      id: 8,
-      category_id: 2,
-      name: "Cà phê Trứng Hà Nội",
-      base_price: 35000,
-      image_url: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600",
-      description: "Lớp kem trứng đánh bông mịn như mây kết hợp cà phê Robusta hảo hạng."
-    },
-    {
-      id: 10,
-      category_id: 3,
-      name: "Trà Đào Cam Sả Tươi",
-      base_price: 38000,
-      image_url: "https://images.unsplash.com/photo-1556881286-fc6915169721?w=600",
-      description: "Miếng đào giòn ngọt quyện cùng hương sả nồng ấm và vị cam vàng mọng nước."
-    },
-    {
-      id: 11,
-      category_id: 3,
-      name: "Trà Vải Hoa Lài Thanh Mát",
-      base_price: 36000,
-      image_url: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600",
-      description: "Trà lài ngát hương kết hợp cùng những quả vải thiều mọng nước giòn ngọt."
-    },
-    {
-      id: 12,
-      category_id: 3,
-      name: "Trà Mãng Cầu Đắk Lắk",
-      base_price: 39000,
-      image_url: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600",
-      description: "Mãng cầu xiêm chua chua ngọt ngọt tự nhiên dầm cùng cốt trà hoa lài thanh nhã."
-    },
-    {
-      id: 13,
-      category_id: 4,
-      name: "Matcha Đá Xay Kem Cheese",
-      base_price: 49000,
-      image_url: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=600",
-      description: "Đá xay matcha thơm bùi phủ kem cheese mằn mặn béo ngậy tan chảy nơi đầu lưỡi."
+      "id": 5,
+      "name": "Sữa tươi"
     }
   ],
-  toppings: [
-    { id: 1, name: "Trân châu đen đường đen", price: 5000 },
-    { id: 2, name: "Trân châu trắng giòn 3Q", price: 7000 },
-    { id: 4, name: "Pudding trứng sữa béo ngậy", price: 8000 },
-    { id: 5, name: "Kem Cheese Macchiato mặn", price: 10000 },
-    { id: 6, name: "Trân châu Hoàng kim dẻo thơm", price: 8000 },
-    { id: 7, name: "Thạch củ năng cắn giòn sần sật", price: 7000 },
-    { id: 9, name: "Đậu đỏ hầm bùi ngọt", price: 6000 },
-    { id: 11, name: "Thạch khúc bạch hạnh nhân", price: 9000 }
+  "products": [
+    {
+      "id": 1,
+      "category_id": 1,
+      "name": "Trà sữa Trân châu Đường đen",
+      "base_price": 35000,
+      "image_url": "https://images.unsplash.com/photo-1558857563-b37cf5b62b1a?w=500",
+      "description": "Vị trà đậm đà kèm trân châu dẻo thơm."
+    },
+    {
+      "id": 2,
+      "category_id": 1,
+      "name": "Trà sữa Oolong Nướng",
+      "base_price": 38000,
+      "image_url": "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=500",
+      "description": "Hương vị nướng thơm lừng kết hợp kem sữa béo ngậy."
+    },
+    {
+      "id": 3,
+      "category_id": 2,
+      "name": "Cà phê Muối",
+      "base_price": 30000,
+      "image_url": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500",
+      "description": "Cà phê pha phin truyền thống phủ lớp kem mặn mịn màng."
+    },
+    {
+      "id": 4,
+      "category_id": 2,
+      "name": "Bạc xỉu Đá",
+      "base_price": 28000,
+      "image_url": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500",
+      "description": "Nhiều sữa, ít cà phê, vị ngọt béo dễ uống."
+    },
+    {
+      "id": 5,
+      "category_id": 1,
+      "name": "Trà sữa Matcha Đậu đỏ",
+      "base_price": 42000,
+      "image_url": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=500",
+      "description": "Vị trà xanh Nhật Bản thanh mát kết hợp đậu đỏ bùi ngọt."
+    },
+    {
+      "id": 6,
+      "category_id": 1,
+      "name": "Trà sữa Khoai môn",
+      "base_price": 39000,
+      "image_url": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500",
+      "description": "Hương khoai môn tự nhiên thơm béo, màu tím bắt mắt."
+    },
+    {
+      "id": 7,
+      "category_id": 1,
+      "name": "Trà sữa Thái Xanh",
+      "base_price": 32000,
+      "image_url": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=500",
+      "description": "Trà thái xanh đậm đà, giải nhiệt cực đã."
+    },
+    {
+      "id": 8,
+      "category_id": 2,
+      "name": "Cà phê Trứng",
+      "base_price": 35000,
+      "image_url": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=500",
+      "description": "Lớp kem trứng đánh bông mịn ngậy kết hợp cà phê Robusta đậm vị."
+    },
+    {
+      "id": 9,
+      "category_id": 2,
+      "name": "Americano Đá",
+      "base_price": 25000,
+      "image_url": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500",
+      "description": "Cà phê nguyên chất pha loãng với đá, thanh nhẹ, tỉnh táo."
+    },
+    {
+      "id": 10,
+      "category_id": 3,
+      "name": "Trà Đào Cam Sả",
+      "base_price": 38000,
+      "image_url": "https://images.unsplash.com/photo-1556881286-fc6915169721?w=500",
+      "description": "Miếng đào giòn ngọt quyện cùng hương sả nồng ấm và vị cam tươi."
+    },
+    {
+      "id": 11,
+      "category_id": 3,
+      "name": "Trà Vải Hoa Lài",
+      "base_price": 36000,
+      "image_url": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500",
+      "description": "Trà lài ngát hương kết hợp những quả vải thiều mọng nước."
+    },
+    {
+      "id": 12,
+      "category_id": 3,
+      "name": "Trà Mãng Cầu Đắk Lắk",
+      "base_price": 39000,
+      "image_url": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=500",
+      "description": "Mãng cầu xiêm chua ngọt tự nhiên dầm cùng trà lài."
+    },
+    {
+      "id": 13,
+      "category_id": 4,
+      "name": "Matcha Đá Xay Kem Cheese",
+      "base_price": 49000,
+      "image_url": "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500",
+      "description": "Đá xay matcha thơm bùi phủ kem cheese mằn mặn béo ngậy."
+    },
+    {
+      "id": 14,
+      "category_id": 4,
+      "name": "Cà phê Phin Đóng Băng",
+      "base_price": 45000,
+      "image_url": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=500",
+      "description": "Cà phê đá xay cùng thạch cà phê giòn dai."
+    },
+    {
+      "id": 15,
+      "category_id": 1,
+      "name": "Trà sữa Matcha Đậu đỏ",
+      "base_price": 42000,
+      "image_url": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=500",
+      "description": "Vị trà xanh Nhật Bản thanh mát kết hợp đậu đỏ bùi ngọt."
+    },
+    {
+      "id": 16,
+      "category_id": 1,
+      "name": "Trà sữa Khoai môn",
+      "base_price": 39000,
+      "image_url": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500",
+      "description": "Hương khoai môn tự nhiên thơm béo, màu tím bắt mắt."
+    },
+    {
+      "id": 17,
+      "category_id": 1,
+      "name": "Trà sữa Thái Xanh",
+      "base_price": 32000,
+      "image_url": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=500",
+      "description": "Trà thái xanh đậm đà, giải nhiệt cực đã."
+    },
+    {
+      "id": 18,
+      "category_id": 2,
+      "name": "Cà phê Trứng",
+      "base_price": 35000,
+      "image_url": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=500",
+      "description": "Lớp kem trứng đánh bông mịn ngậy kết hợp cà phê Robusta đậm vị."
+    },
+    {
+      "id": 19,
+      "category_id": 2,
+      "name": "Americano Đá",
+      "base_price": 25000,
+      "image_url": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500",
+      "description": "Cà phê nguyên chất pha loãng với đá, thanh nhẹ, tỉnh táo."
+    },
+    {
+      "id": 20,
+      "category_id": 3,
+      "name": "Trà Đào Cam Sả",
+      "base_price": 38000,
+      "image_url": "https://images.unsplash.com/photo-1556881286-fc6915169721?w=500",
+      "description": "Miếng đào giòn ngọt quyện cùng hương sả nồng ấm và vị cam tươi."
+    },
+    {
+      "id": 21,
+      "category_id": 3,
+      "name": "Trà Vải Hoa Lài",
+      "base_price": 36000,
+      "image_url": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500",
+      "description": "Trà lài ngát hương kết hợp những quả vải thiều mọng nước."
+    },
+    {
+      "id": 22,
+      "category_id": 3,
+      "name": "Trà Mãng Cầu Đắk Lắk",
+      "base_price": 39000,
+      "image_url": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=500",
+      "description": "Mãng cầu xiêm chua ngọt tự nhiên dầm cùng trà lài."
+    },
+    {
+      "id": 23,
+      "category_id": 4,
+      "name": "Matcha Đá Xay Kem Cheese",
+      "base_price": 49000,
+      "image_url": "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500",
+      "description": "Đá xay matcha thơm bùi phủ kem cheese mằn mặn béo ngậy."
+    },
+    {
+      "id": 24,
+      "category_id": 4,
+      "name": "Cà phê Phin Đóng Băng",
+      "base_price": 45000,
+      "image_url": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=500",
+      "description": "Cà phê đá xay cùng thạch cà phê giòn dai."
+    },
+    {
+      "id": 25,
+      "category_id": 1,
+      "name": "sữa tươi con bò cười",
+      "base_price": 35000,
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUaiSYiwai493VGFX0s3xFg9_tfbh_u7pScAu7gr7cNw&s=10",
+      "description": "ngon"
+    },
+    {
+      "id": 26,
+      "category_id": 1,
+      "name": "Trà Sữa Lài Kem Cheese",
+      "base_price": 42000,
+      "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc",
+      "description": "Hương hoa lài thanh nhẹ kết hợp cùng lớp kem phô mai béo ngậy mằn mặn."
+    },
+    {
+      "id": 27,
+      "category_id": 1,
+      "name": "Trà Sữa Thái Đỏ Trân Châu",
+      "base_price": 32000,
+      "image_url": "https://images.unsplash.com/photo-1572490122747-3968b75cc699",
+      "description": "Trà Thái đỏ đậm vị trà thảo mộc truyền thống, thơm ngon dễ uống."
+    },
+    {
+      "id": 28,
+      "category_id": 1,
+      "name": "Hồng Trà Macchiato",
+      "base_price": 36000,
+      "image_url": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5",
+      "description": "Hồng trà ủ lạnh thơm đậm kết hợp cùng lớp kem sữa sủi bọt mềm mịn."
+    },
+    {
+      "id": 29,
+      "category_id": 1,
+      "name": "Trà Đào Cam Sả",
+      "base_price": 39000,
+      "image_url": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd",
+      "description": "Vị chua ngọt thanh mát của cam vàng hòa quyện hương sả và miếng đào giòn ngọt."
+    },
+    {
+      "id": 30,
+      "category_id": 2,
+      "name": "Cà Phê Sữa Sài Gòn",
+      "base_price": 25000,
+      "image_url": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd",
+      "description": "Cà phê Robusta đậm vị rang xay truyền thống pha với sữa đặc ngọt ngào."
+    },
+    {
+      "id": 31,
+      "category_id": 2,
+      "name": "Cà Phê Dừa Đá Xay",
+      "base_price": 45000,
+      "image_url": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735",
+      "description": "Cốt dừa đá xay béo thơm kết hợp cùng shot Espresso thơm lừng."
+    },
+    {
+      "id": 32,
+      "category_id": 2,
+      "name": "Cold Brew Cam Vàng",
+      "base_price": 42000,
+      "image_url": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38",
+      "description": "Cà phê ủ lạnh 16 tiếng thanh mát, hương cam tươi dịu nhẹ dễ chịu."
+    },
+    {
+      "id": 33,
+      "category_id": 2,
+      "name": "Caramel Macchiato",
+      "base_price": 48000,
+      "image_url": "https://images.unsplash.com/photo-1485808191679-5f86510681a2",
+      "description": "Sữa tươi béo ngậy hòa cùng cà phê Espresso và sốt Caramel ngọt ngào."
+    }
+  ],
+  "toppings": [
+    {
+      "id": 1,
+      "name": "Trân châu đen",
+      "price": 5000
+    },
+    {
+      "id": 2,
+      "name": "Trân châu trắng",
+      "price": 7000
+    },
+    {
+      "id": 3,
+      "name": "Thạch rau câu",
+      "price": 5000
+    },
+    {
+      "id": 4,
+      "name": "Pudding trứng",
+      "price": 8000
+    },
+    {
+      "id": 5,
+      "name": "Kem Cheese (Macchiato)",
+      "price": 10000
+    },
+    {
+      "id": 6,
+      "name": "Trân châu Hoàng kim",
+      "price": 8000
+    },
+    {
+      "id": 7,
+      "name": "Thạch củ năng",
+      "price": 7000
+    },
+    {
+      "id": 8,
+      "name": "Nha đam đường phèn",
+      "price": 6000
+    },
+    {
+      "id": 9,
+      "name": "Đậu đỏ ngọt",
+      "price": 6000
+    },
+    {
+      "id": 10,
+      "name": "Hạt sen bùi",
+      "price": 8000
+    },
+    {
+      "id": 11,
+      "name": "Thạch khúc bạch",
+      "price": 9000
+    },
+    {
+      "id": 12,
+      "name": "thach dua",
+      "price": 3000
+    }
   ]
 };
 

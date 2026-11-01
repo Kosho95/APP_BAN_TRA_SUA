@@ -11,6 +11,7 @@ import PrintBillModal from './components/PrintBillModal';
 import LoginModal from './components/LoginModal';
 import AdminDashboard from './components/AdminDashboard';
 import Toast from './components/Toast';
+import CreamDrip from './components/CreamDrip';
 import { fetchMenuData, getApiBaseUrl, setApiBaseUrl, formatVND } from './api';
 import { Sparkles, CupSoda, Heart, Coffee, ShieldCheck, MapPin, Phone, Clock, Settings, RefreshCw } from 'lucide-react';
 
@@ -423,85 +424,149 @@ export default function App() {
       {/* 11. TOAST NOTIFICATION TRƯỢT NHẸ */}
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      {/* 12. FOOTER ẤM CÚNG */}
+      {/* LỚP KEM TUYẾT TRẮNG TINH KHÔI CHẢY TRÀN TRÊN ĐỈNH CHÂN TRANG */}
+      <div style={{ marginTop: '60px', transform: 'translateY(2px)', lineHeight: 0, position: 'relative', zIndex: 10 }}>
+        <CreamDrip height={42} theme="white" />
+      </div>
+
+      {/* 12. FOOTER NÂU CÀ PHÊ & CACAO SANG TRỌNG ĐẬM ĐÀ */}
       <footer style={{
-        backgroundColor: '#fff',
-        borderTop: '1px solid var(--border-light)',
-        padding: '48px 0 32px',
-        marginTop: 'auto'
+        background: 'linear-gradient(180deg, #2D1B16 0%, #1A0D09 100%)',
+        color: '#FFFFFF',
+        padding: '52px 0 36px',
+        position: 'relative',
+        zIndex: 5,
+        boxShadow: '0 -10px 40px rgba(0,0,0,0.25)'
       }}>
         <div className="container">
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '32px',
-            marginBottom: '36px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '36px',
+            marginBottom: '42px'
           }}>
-            {/* Cột 1: Thông tin quán */}
+            {/* Cột 1: Thông tin quán & Giới thiệu */}
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                <span style={{ fontSize: '26px' }}>🧋</span>
-                <span style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-dark)' }}>
-                  Trà Sữa Tea & Coffee
-                </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+                <div style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '12px',
+                  backgroundColor: 'rgba(244, 162, 97, 0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '24px',
+                  border: '1px solid rgba(244, 162, 97, 0.4)'
+                }}>
+                  🧋
+                </div>
+                <div>
+                  <span style={{ fontSize: '19px', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.01em', display: 'block' }}>
+                    Cozy Tea & Coffee
+                  </span>
+                  <span style={{ fontSize: '12px', color: '#F4A261', fontWeight: 700 }}>
+                    Hương vị đậm đà • Pha chế tươi mới
+                  </span>
+                </div>
               </div>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '14px' }}>
-                Hương vị trà sữa Oolong nguyên bản và trà hoa quả thanh mát. Đậm đà từng giọt, trọn vẹn yêu thương.
+              <p style={{ fontSize: '13px', color: '#D7CCC8', lineHeight: 1.65, marginBottom: '16px' }}>
+                Được chắt lọc từ những búp trà tươi cao nguyên phối cùng sữa tươi thanh trùng và trân châu thủ công nấu mới mỗi sớm mai.
               </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--matcha-green)', fontWeight: 700 }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--matcha-green)', display: 'inline-block' }} />
-                <span>Đang mở cửa • Phục vụ từ 08:00 - 22:30</span>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-full)',
+                backgroundColor: 'rgba(82, 183, 136, 0.2)',
+                border: '1px solid rgba(82, 183, 136, 0.4)',
+                fontSize: '12px',
+                color: '#74C69D',
+                fontWeight: 800
+              }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#52B788', display: 'inline-block', boxShadow: '0 0 8px #52B788' }} />
+                <span>Đang mở cửa • 08:00 - 22:30 mỗi ngày</span>
               </div>
             </div>
 
-            {/* Cột 2: Liên hệ & Địa chỉ */}
+            {/* Cột 2: Cam kết chất lượng 4 tiêu chí vàng */}
             <div>
-              <h4 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-dark)', marginBottom: '12px' }}>
-                Thông Tin Quán
+              <h4 style={{ fontSize: '16px', fontWeight: 800, color: '#F4A261', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>✨</span>
+                <span>Cam Kết Chất Lượng</span>
               </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13px', color: 'var(--text-body)' }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                  <MapPin size={16} color="var(--primary-600)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <span>Phường Trảng Bom, Thành Phố Đồng Nai</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '11px', fontSize: '13px', color: '#EFEBE9' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(45, 106, 79, 0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>🍃</span>
+                  <span><strong>100% Trà lá sạch</strong> ủ mới trong ngày</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Phone size={16} color="var(--primary-600)" style={{ flexShrink: 0 }} />
-                  <span>Hotline đặt hàng: <strong>0912.345.678</strong></span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(224, 122, 95, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>🥛</span>
+                  <span><strong>Sữa tươi thanh trùng</strong> béo mịn tự nhiên</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Clock size={16} color="var(--primary-600)" style={{ flexShrink: 0 }} />
-                  <span>Thời gian giao hàng: 20 - 30 phút</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(82, 183, 136, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>🧊</span>
+                  <span><strong>Đá bi tinh khiết</strong> lọc chuẩn RO</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'rgba(244, 162, 97, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>🛵</span>
+                  <span><strong>Giao siêu tốc</strong> giữ trọn độ mát lạnh</span>
                 </div>
               </div>
             </div>
 
-            {/* Cột 3: Quản trị & Kết nối API */}
+            {/* Cột 3: Liên hệ & Địa chỉ quán */}
             <div>
-              <h4 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-dark)', marginBottom: '12px' }}>
-                Hệ Thống Quản Trị
+              <h4 style={{ fontSize: '16px', fontWeight: 800, color: '#F4A261', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>📍</span>
+                <span>Liên Hệ Đặt Hàng</span>
               </h4>
-              <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: 1.5 }}>
-                Dành cho quản lý quán để theo dõi đơn hàng thời gian thực, in bill K80 và thêm món mới.
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D7CCC8' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <MapPin size={17} color="#F4A261" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span>Khu phố 3, Phường Trảng Bom, Thành Phố Đồng Nai</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Phone size={17} color="#52B788" style={{ flexShrink: 0 }} />
+                  <span>Hotline / Zalo: <strong style={{ color: '#FFFFFF', fontSize: '14.5px', textDecoration: 'underline' }}>0912.345.678</strong></span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Clock size={17} color="#F4A261" style={{ flexShrink: 0 }} />
+                  <span>Thời gian giao hàng: <strong>20 - 30 phút</strong></span>
+                </div>
+              </div>
+            </div>
+
+            {/* Cột 4: Hệ thống Quản trị & Trạng thái API */}
+            <div>
+              <h4 style={{ fontSize: '16px', fontWeight: 800, color: '#F4A261', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>🛡️</span>
+                <span>Cổng Quản Trị Quán</span>
+              </h4>
+              <p style={{ fontSize: '12.5px', color: '#D7CCC8', marginBottom: '14px', lineHeight: 1.5 }}>
+                Xem doanh thu, in bill tính tiền và cập nhật trạng thái đơn hàng thời gian thực.
               </p>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => setIsAdminMode(true)}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '8px',
-                    padding: '9px 16px',
+                    padding: '9px 18px',
                     borderRadius: 'var(--radius-full)',
-                    backgroundColor: 'var(--primary-600)',
+                    background: 'linear-gradient(135deg, #E07A5F 0%, #C27848 100%)',
                     color: '#fff',
                     fontSize: '13px',
-                    fontWeight: 700,
-                    boxShadow: 'var(--shadow-sm)',
+                    fontWeight: 800,
+                    boxShadow: '0 4px 14px rgba(224, 122, 95, 0.4)',
+                    border: 'none',
                     cursor: 'pointer'
                   }}
                 >
                   <ShieldCheck size={16} />
-                  <span>Cổng Quản Trị SPA</span>
+                  <span>Quản Trị SPA</span>
                 </button>
 
                 <a
@@ -512,35 +577,51 @@ export default function App() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
-                    padding: '9px 14px',
+                    padding: '9px 16px',
                     borderRadius: 'var(--radius-full)',
-                    backgroundColor: 'var(--bg-surface-soft)',
-                    color: 'var(--text-body)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    color: '#FFFFFF',
                     fontSize: '13px',
-                    fontWeight: 600,
-                    border: '1px solid var(--border-soft)'
+                    fontWeight: 700,
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    textDecoration: 'none'
                   }}
                 >
                   <span>admin.php</span>
                   <span>↗</span>
                 </a>
               </div>
-              <div style={{ fontSize: '11px', color: 'var(--text-light)', marginTop: '8px' }}>
-                Trạng thái API: <span style={{ color: dataSource === 'live_api' ? 'var(--matcha-green)' : 'var(--accent-orange)', fontWeight: 700 }}>
-                  {dataSource === 'live_api' ? '● Đang kết nối Online DB MySQL' : '● Chế độ Dự Phòng Offline'}
+              <div style={{ fontSize: '11.5px', color: '#A1887F', marginTop: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>Trạng thái máy chủ:</span>
+                <span style={{ color: dataSource === 'live_api' ? '#74C69D' : '#F4A261', fontWeight: 800 }}>
+                  {dataSource === 'live_api' ? '● Online MySQL DB' : '● Dự phòng Offline'}
                 </span>
               </div>
             </div>
           </div>
 
+          {/* DÒNG BẢN QUYỀN ĐÁY CHÂN TRANG */}
           <div style={{
-            borderTop: '1px solid var(--border-light)',
-            paddingTop: '20px',
-            textAlign: 'center',
-            fontSize: '12px',
-            color: 'var(--text-light)'
+            borderTop: '1px solid rgba(255, 255, 255, 0.12)',
+            paddingTop: '24px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            fontSize: '12.5px',
+            color: '#BCAAA4'
           }}>
-            © 2026 Trà Sữa Tea & Coffee • Đồ án Lập trình Mobile & Web • Nhóm 9 Quán Thái
+            <div>
+              © 2026 Cozy Tea & Coffee • Đồ án Lập trình Mobile & Web • Nhóm 9 Quán Thái
+            </div>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <span>Freeship từ 50K</span>
+              <span>•</span>
+              <span>Đổi trả nếu không hài lòng</span>
+              <span>•</span>
+              <span>Hotline 24/7</span>
+            </div>
           </div>
         </div>
       </footer>

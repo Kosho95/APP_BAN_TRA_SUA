@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Search, ShoppingBag, Clock, ExternalLink, Sparkles, X, Coffee, User, ShieldCheck } from 'lucide-react';
 import { formatVND } from '../api';
 
@@ -233,8 +234,11 @@ export default function Navbar({
             <span>Quản Trị</span>
           </button>
 
-          {/* Cart Button */}
-          <button
+          {/* Cart Button with Spring Elasticity */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.92 }}
+            transition={{ type: 'spring', stiffness: 450, damping: 18 }}
             onClick={onOpenCart}
             style={{
               display: 'flex',
@@ -246,8 +250,9 @@ export default function Navbar({
               color: '#fff',
               fontSize: '14px',
               fontWeight: 700,
-              boxShadow: '0 4px 14px rgba(93, 64, 55, 0.25)',
-              transition: 'all 0.2s ease',
+              boxShadow: '0 6px 18px rgba(93, 64, 55, 0.28)',
+              border: 'none',
+              cursor: 'pointer',
               position: 'relative'
             }}
           >
@@ -290,7 +295,7 @@ export default function Navbar({
                 {formatVND(cartTotal)}
               </span>
             )}
-          </button>
+          </motion.button>
         </div>
 
         {/* 3. Right Actions trên MOBILE (Gọn gàng bằng Icon, không bị tràn viền) */}
@@ -369,7 +374,8 @@ export default function Navbar({
           </button>
 
           {/* Nút Giỏ hàng trên điện thoại */}
-          <button
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             onClick={onOpenCart}
             style={{
               height: '36px',
@@ -380,6 +386,8 @@ export default function Navbar({
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
+              border: 'none',
+              cursor: 'pointer',
               position: 'relative'
             }}
           >
@@ -396,7 +404,7 @@ export default function Navbar({
                 {cartCount}
               </span>
             )}
-          </button>
+          </motion.button>
         </div>
       </div>
 

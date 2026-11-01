@@ -49,15 +49,43 @@ export default function CheckoutModal({
     : 0;
   const finalTotal = Math.max(0, itemsSubtotal + shippingFee - discountAmount);
 
-  // Kích hoạt pháo hoa chúc mừng khi tạo đơn thành công
+  // Kích hoạt đại tiệc pháo hoa vật lý kép (Dual Cannon Confetti) chúc mừng khi tạo đơn thành công
   useEffect(() => {
     if (orderResult) {
       try {
+        const colors = ['#E07A5F', '#F4A261', '#E76F51', '#2A9D8F', '#E9C46A', '#F7EED8', '#5D4037'];
+        
+        // Pháo trái
         confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 }
+          particleCount: 70,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.75 },
+          colors: colors,
+          gravity: 1.1,
+          scalar: 1.15
         });
+
+        // Pháo phải
+        confetti({
+          particleCount: 70,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.75 },
+          colors: colors,
+          gravity: 1.1,
+          scalar: 1.15
+        });
+
+        // Đợt bung giữa sau 250ms
+        setTimeout(() => {
+          confetti({
+            particleCount: 60,
+            spread: 90,
+            origin: { x: 0.5, y: 0.55 },
+            colors: colors
+          });
+        }, 250);
       } catch (e) {}
     }
   }, [orderResult]);

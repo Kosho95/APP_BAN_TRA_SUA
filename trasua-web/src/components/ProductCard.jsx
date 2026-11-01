@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Plus, Flame, Sparkles, Tag, Heart } from 'lucide-react';
+import { Plus, Flame, Sparkles, Tag, Heart, Star, Coffee, CupSoda } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { formatVND } from '../api';
 
 export default function ProductCard({ product, categoryName, onSelectProduct }) {
@@ -7,52 +8,114 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
   const [isHovered, setIsHovered] = useState(false);
   const [isFav, setIsFav] = useState(false);
 
-  // Gắn nhãn badge thông minh cho sinh động
+  const id = Number(product.id) || 1;
+  const catId = Number(product.category_id) || 1;
+
+  // 1. Phân loại Theme màu theo Danh mục sản phẩm (Nâu, Xanh Matcha, Cam Đào, Cà phê)
+  const getCategoryTheme = () => {
+    const name = (product.name || '').toLowerCase();
+    const cat = (categoryName || '').toLowerCase();
+
+    if (catId === 2 || name.includes('cà phê') || name.includes('bạc xỉu') || name.includes('americano')) {
+      return {
+        accent: '#5D4037', // Nâu cà phê đậm đà
+        accentLight: '#F3ECE7',
+        badgeBg: 'linear-gradient(135deg, #6D4C41 0%, #3E2723 100%)',
+        glow: 'rgba(93, 64, 55, 0.28)',
+        btnBg: 'linear-gradient(135deg, #6D4C41 0%, #4E342E 100%)',
+        emoji: '☕',
+        tagText: 'Cà Phê Nguyên Chất'
+      };
+    }
+    if (name.includes('matcha') || catId === 4 || name.includes('đá xay') || cat.includes('matcha')) {
+      return {
+        accent: '#2D6A4F', // Xanh Matcha Nhật Bản
+        accentLight: '#E8F5E9',
+        badgeBg: 'linear-gradient(135deg, #40916C 0%, #1B4332 100%)',
+        glow: 'rgba(45, 106, 79, 0.28)',
+        btnBg: 'linear-gradient(135deg, #40916C 0%, #2D6A4F 100%)',
+        emoji: '🍃',
+        tagText: 'Matcha Uji Tươi'
+      };
+    }
+    if (catId === 3 || name.includes('trà đào') || name.includes('vải') || name.includes('mãng cầu') || name.includes('dâu')) {
+      return {
+        accent: '#E07A5F', // Cam đào & Trái cây tươi ngọt ngào
+        accentLight: '#FDF0ED',
+        badgeBg: 'linear-gradient(135deg, #F4A261 0%, #E76F51 100%)',
+        glow: 'rgba(224, 122, 95, 0.3)',
+        btnBg: 'linear-gradient(135deg, #F4A261 0%, #E07A5F 100%)',
+        emoji: '🍓',
+        tagText: 'Trái Cây Tươi Mọng'
+      };
+    }
+    // Mặc định: Trà Sữa Đậm Vị
+    return {
+      accent: '#C27848', // Nâu trà sữa hoàng kim
+      accentLight: '#FFF4ED',
+      badgeBg: 'linear-gradient(135deg, #D4A373 0%, #A97142 100%)',
+      glow: 'rgba(194, 120, 72, 0.28)',
+      btnBg: 'linear-gradient(135deg, #D4A373 0%, #B06C3B 100%)',
+      emoji: '🧋',
+      tagText: 'Trà Sữa Đậm Vị'
+    };
+  };
+
+  const theme = getCategoryTheme();
+
+  // 2. Gắn nhãn badge thông minh cho sinh động
   const getBadge = () => {
-    const id = Number(product.id);
     if (id === 1 || id === 2 || id === 3 || id === 10) {
-      return { text: 'Best Seller', icon: <Flame size={12} color="#fff" />, bg: 'var(--accent-orange)' };
+      return { text: 'Best Seller', icon: <Flame size={12} color="#fff" />, bg: 'linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%)' };
     }
     if (id === 5 || id === 6 || id === 12 || id === 13) {
-      return { text: 'Món Mới', icon: <Sparkles size={12} color="#fff" />, bg: 'var(--matcha-green)' };
+      return { text: 'Món Mới', icon: <Sparkles size={12} color="#fff" />, bg: 'linear-gradient(135deg, #48BB78 0%, #2F855A 100%)' };
     }
     if (id % 3 === 0) {
-      return { text: 'Giảm 15%', icon: <Tag size={12} color="#fff" />, bg: 'var(--primary-600)' };
+      return { text: 'Giảm 15%', icon: <Tag size={12} color="#fff" />, bg: 'linear-gradient(135deg, #ED8936 0%, #C05621 100%)' };
     }
     return null;
   };
 
   const badge = getBadge();
-
-  // Ảnh dự phòng khi URL lỗi
   const fallbackImg = "https://images.unsplash.com/photo-1558857563-b37cf5b62b1a?w=500";
 
+  // Tạo số sao rating & lượt bán tự nhiên
+  const rating = (4.8 + ((id * 7) % 3) / 10).toFixed(1);
+  const salesCount = 450 + (id * 97) % 1200;
+
   return (
-    <div
+    <motion.div
+      whileHover={{ y: -8 }}
+      transition={{ type: 'spring', stiffness: 360, damping: 20 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundColor: 'var(--bg-surface)',
-        borderRadius: 'var(--radius-md)',
+        backgroundColor: '#FFFFFF', // NỀN TRẮNG TINH KHIẾT NỔI BẬT KHÔNG BỊ CHÌM VÀO MÀU BE
+        borderRadius: '20px',
         overflow: 'hidden',
-        border: `1.5px solid ${isHovered ? 'rgba(255, 112, 67, 0.45)' : 'var(--border-light)'}`,
-        boxShadow: isHovered ? '0 18px 38px -6px rgba(93, 64, 55, 0.2), 0 8px 18px -4px rgba(255, 112, 67, 0.15)' : 'var(--shadow-md)',
-        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-        transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
+        border: `1.5px solid ${isHovered ? theme.accent : 'rgba(121, 85, 72, 0.12)'}`,
+        boxShadow: isHovered
+          ? `0 20px 40px -10px ${theme.glow}, 0 6px 16px rgba(0,0,0,0.06)`
+          : '0 8px 24px rgba(62, 39, 35, 0.06)',
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        transition: 'border-color 0.25s ease, box-shadow 0.25s ease'
       }}
       onClick={() => onSelectProduct(product)}
     >
-      {/* Container Ảnh 1:1 */}
+      {/* VẠCH MÀU TRANG TRÍ ĐỈNH THẺ (ACCENT COLOR STRIP) */}
+      <div style={{ height: '4px', width: '100%', background: theme.btnBg }} />
+
+      {/* CONTAINER ẢNH MÓN VỚI HIỆU ỨNG VỆT SÁNG LƯỚT QUA (SHIMMER) */}
       <div style={{
         position: 'relative',
         width: '100%',
-        paddingTop: '72%', // Tỉ lệ đồ uống chuẩn gọn đẹp
+        paddingTop: '74%',
         overflow: 'hidden',
-        backgroundColor: 'var(--bg-surface-soft)'
+        backgroundColor: '#F8F9FA'
       }}>
         <img
           src={imgError ? fallbackImg : (product.image_url || fallbackImg)}
@@ -65,36 +128,79 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-            transform: isHovered ? 'scale(1.08)' : 'scale(1)'
+            transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+            transform: isHovered ? 'scale(1.09)' : 'scale(1)'
           }}
         />
 
+        {/* Lớp phủ vệt sáng lướt qua khi hover */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: isHovered ? '140%' : '-60%',
+          width: '50%',
+          height: '100%',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%)',
+          transform: 'skewX(-25deg)',
+          transition: 'left 0.75s ease',
+          pointerEvents: 'none'
+        }} />
+
         {/* Badge góc trên bên trái */}
         {badge && (
-          <div style={{
-            position: 'absolute',
-            top: '12px',
-            left: '12px',
-            backgroundColor: badge.bg,
-            color: '#fff',
-            fontSize: '11px',
-            fontWeight: 800,
-            padding: '4px 9px',
-            borderRadius: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
-            zIndex: 2
-          }}>
+          <motion.div
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            style={{
+              position: 'absolute',
+              top: '12px',
+              left: '12px',
+              background: badge.bg,
+              color: '#fff',
+              fontSize: '11px',
+              fontWeight: 800,
+              padding: '4px 10px',
+              borderRadius: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              boxShadow: '0 3px 10px rgba(0,0,0,0.22)',
+              zIndex: 3,
+              letterSpacing: '0.02em'
+            }}
+          >
             {badge.icon}
             <span>{badge.text}</span>
-          </div>
+          </motion.div>
         )}
 
+        {/* Tag Phân loại nhỏ ở góc dưới ảnh */}
+        <div style={{
+          position: 'absolute',
+          bottom: '10px',
+          left: '12px',
+          backgroundColor: 'rgba(255, 255, 255, 0.92)',
+          backdropFilter: 'blur(6px)',
+          color: theme.accent,
+          fontSize: '10.5px',
+          fontWeight: 800,
+          padding: '3px 8px',
+          borderRadius: '12px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+          zIndex: 2
+        }}>
+          <span>{theme.emoji}</span>
+          <span>{theme.tagText}</span>
+        </div>
+
         {/* Nút thả tim yêu thích */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.75 }}
+          whileHover={{ scale: 1.15 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 15 }}
           onClick={(e) => {
             e.stopPropagation();
             setIsFav(!isFav);
@@ -106,52 +212,57 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             width: '32px',
             height: '32px',
             borderRadius: '50%',
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            backgroundColor: 'rgba(255, 255, 255, 0.92)',
             backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 2,
-            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
-            transition: 'all 0.15s'
+            zIndex: 3,
+            border: 'none',
+            cursor: 'pointer',
+            boxShadow: '0 3px 10px rgba(0,0,0,0.12)'
           }}
           title="Yêu thích món này"
         >
           <Heart
             size={16}
-            color={isFav ? 'var(--accent-orange)' : 'var(--text-light)'}
-            fill={isFav ? 'var(--accent-orange)' : 'none'}
+            color={isFav ? '#FF4757' : '#8D6E63'}
+            fill={isFav ? '#FF4757' : 'none'}
           />
-        </button>
+        </motion.button>
       </div>
 
-      {/* Nội dung thông tin món */}
+      {/* THÔNG TIN CHI TIẾT SẢN PHẨM */}
       <div className="product-card-body" style={{
         padding: '16px 18px 18px',
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        backgroundColor: '#FFFFFF'
       }}>
         <div>
-          {categoryName && (
-            <span style={{
-              fontSize: '11px',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              color: 'var(--text-light)',
-              display: 'inline-block',
-              marginBottom: '6px'
-            }}>
-              {categoryName}
+          {/* Hàng Đánh Giá Sao & Lượt Bán */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '6px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Star size={13} color="#F59E0B" fill="#F59E0B" />
+              <span style={{ fontSize: '12px', fontWeight: 800, color: '#4B5563' }}>{rating}</span>
+            </div>
+            <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: 600 }}>
+              Đã bán {salesCount}+
             </span>
-          )}
+          </div>
 
+          {/* Tên Món - Chữ Đậm Nét Rõ Ràng */}
           <h3 className="product-card-title" style={{
             fontSize: '16px',
-            fontWeight: 700,
-            color: 'var(--text-dark)',
+            fontWeight: 800,
+            color: '#2D1B16',
             lineHeight: 1.35,
             marginBottom: '6px',
             display: '-webkit-box',
@@ -163,9 +274,10 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             {product.name}
           </h3>
 
+          {/* Mô tả món */}
           <p className="product-card-desc" style={{
             fontSize: '12.5px',
-            color: 'var(--text-muted)',
+            color: '#6B7280',
             lineHeight: 1.45,
             marginBottom: '16px',
             display: '-webkit-box',
@@ -174,32 +286,38 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
             overflow: 'hidden',
             minHeight: '36px'
           }}>
-            {product.description || 'Hương vị trà sữa đặc trưng, nguyên liệu tươi mới mỗi ngày.'}
+            {product.description || 'Pha chế tươi mới chuẩn vị, nguyên liệu tuyển chọn chất lượng.'}
           </p>
         </div>
 
-        {/* Chân thẻ: Giá & Nút Chọn món */}
+        {/* CHÂN THẺ: GIÁ TIỀN & NÚT CHỌN MÓN NỔI BẬT */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingTop: '12px',
-          borderTop: '1px dashed var(--border-light)',
+          borderTop: '1px dashed #E5E7EB',
           marginTop: 'auto'
         }}>
           <div>
-            <span style={{ fontSize: '11px', color: 'var(--text-light)', display: 'block' }}>Giá từ</span>
+            <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: 700, display: 'block' }}>
+              Giá chỉ từ
+            </span>
             <div className="product-card-price" style={{
-              fontSize: '17px',
-              fontWeight: 800,
-              color: 'var(--primary-700)',
+              fontSize: '18px',
+              fontWeight: 900,
+              color: theme.accent,
               fontFamily: 'Quicksand, sans-serif'
             }}>
               {formatVND(product.base_price)}
             </div>
           </div>
 
-          <button
+          {/* NÚT CHỌN MÓN DẠNG GRADIENT THEO THEME VỚI HIỆU ỨNG NẨY */}
+          <motion.button
+            whileTap={{ scale: 0.92 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 450, damping: 18 }}
             className="product-card-btn"
             onClick={() => onSelectProduct(product)}
             style={{
@@ -208,20 +326,20 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
               gap: '6px',
               padding: '9px 16px',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: isHovered ? 'var(--accent-orange)' : 'var(--primary-100)',
-              color: isHovered ? '#fff' : 'var(--primary-700)',
+              background: theme.btnBg,
+              color: '#FFFFFF',
               fontSize: '13px',
-              fontWeight: 700,
-              transition: 'all 0.25s ease',
-              boxShadow: isHovered ? '0 6px 16px rgba(255, 112, 67, 0.35)' : 'none',
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+              fontWeight: 800,
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: `0 4px 14px ${theme.glow}`
             }}
           >
-            <Plus size={15} />
+            <Plus size={15} strokeWidth={3} />
             <span>Chọn món</span>
-          </button>
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

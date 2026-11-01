@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, Plus, Minus, Check, ShoppingBag, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { formatVND } from '../api';
+import CreamDrip from './CreamDrip';
 
 export default function DrinkModal({
   product,
@@ -65,23 +67,33 @@ export default function DrinkModal({
   const fallbackImg = "https://images.unsplash.com/photo-1558857563-b37cf5b62b1a?w=500";
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(62, 39, 35, 0.65)',
-      backdropFilter: 'blur(8px)',
-      zIndex: 100,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '20px',
-      overflowY: 'auto'
-    }} onClick={onClose}>
-      <div
-        className="animate-modal drink-modal-box"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(62, 39, 35, 0.68)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px',
+        overflowY: 'auto'
+      }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.82, y: 35 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.85, y: 25 }}
+        transition={{ type: 'spring', stiffness: 380, damping: 25, mass: 0.85 }}
+        className="drink-modal-box"
         onClick={(e) => e.stopPropagation()}
         style={{
           backgroundColor: '#fff',
@@ -91,12 +103,20 @@ export default function DrinkModal({
           maxHeight: '90vh',
           display: 'flex',
           overflow: 'hidden',
-          boxShadow: 'var(--shadow-xl)',
+          boxShadow: '0 25px 60px -15px rgba(62, 39, 35, 0.45)',
           position: 'relative'
         }}
       >
+        {/* LỚP KEM CHEESE CHẢY TRÊN ĐỈNH POPUP */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 12 }}>
+          <CreamDrip height={22} />
+        </div>
+
         {/* Nút đóng góc phải */}
-        <button
+        <motion.button
+          whileHover={{ scale: 1.15, rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: 'spring', stiffness: 450, damping: 18 }}
           onClick={onClose}
           style={{
             position: 'absolute',
@@ -110,293 +130,244 @@ export default function DrinkModal({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 10,
-            transition: 'all 0.2s'
+            zIndex: 15,
+            border: 'none',
+            cursor: 'pointer'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-200)'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--primary-100)'}
         >
           <X size={18} />
-        </button>
+        </motion.button>
 
         {/* CỘT TRÁI: Ảnh ly lớn & Giới thiệu hương vị */}
-        <div className="drink-modal-left" style={{
-          backgroundColor: 'var(--bg-surface-soft)',
-          padding: '30px 24px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRight: '1px solid var(--border-light)',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <div className="drink-img-box" style={{
-            width: '200px',
-            height: '200px',
-            borderRadius: 'var(--radius-md)',
-            overflow: 'hidden',
-            boxShadow: 'var(--shadow-md)',
-            marginBottom: '16px',
-            border: '4px solid #fff'
-          }}>
+        <div
+          className="drink-modal-left"
+          style={{
+            backgroundColor: 'var(--bg-surface-soft)',
+            padding: '34px 24px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRight: '1px solid var(--border-light)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+        >
+          <motion.div
+            whileHover={{ scale: 1.04 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+            className="drink-img-box"
+            style={{
+              width: '200px',
+              height: '200px',
+              borderRadius: 'var(--radius-md)',
+              overflow: 'hidden',
+              boxShadow: '0 10px 25px rgba(93, 64, 55, 0.15)',
+              marginBottom: '16px',
+              border: '4px solid #fff'
+            }}
+          >
             <img
               src={imgErr ? fallbackImg : (product.image_url || fallbackImg)}
               alt={product.name}
               onError={() => setImgErr(true)}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
+          </motion.div>
+
+          <h2 style={{
+            fontSize: '20px',
+            fontWeight: 800,
+            color: 'var(--text-dark)',
+            textAlign: 'center',
+            marginBottom: '8px'
+          }}>
+            {product.name}
+          </h2>
+
+          <div style={{
+            fontSize: '18px',
+            fontWeight: 800,
+            color: 'var(--primary-700)',
+            marginBottom: '12px',
+            fontFamily: 'Quicksand, sans-serif'
+          }}>
+            {formatVND(unitPrice)} <span style={{ fontSize: '12px', color: 'var(--text-light)', fontWeight: 500 }}>/ ly</span>
           </div>
 
-          <div className="drink-text-box">
-            <h3 style={{
-              fontSize: '18px',
-              fontWeight: 800,
-              color: 'var(--text-dark)',
-              textAlign: 'center',
-              marginBottom: '6px'
-            }}>
-              {product.name}
-            </h3>
-
-            <p style={{
-              fontSize: '13px',
-              color: 'var(--text-muted)',
-              textAlign: 'center',
-              lineHeight: 1.5,
-              padding: '0 8px'
-            }}>
-              {product.description || 'Pha chế tươi mới chuẩn vị, nguyên liệu chọn lọc cao cấp.'}
-            </p>
-
-            <div className="drink-tag" style={{
-              marginTop: '14px',
-              padding: '6px 14px',
-              backgroundColor: '#fff',
-              borderRadius: 'var(--radius-full)',
-              fontSize: '12px',
-              fontWeight: 700,
-              color: 'var(--primary-600)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              boxShadow: 'var(--shadow-sm)'
-            }}>
-              <Sparkles size={14} color="var(--accent-orange)" />
-              <span>Tùy chỉnh theo khẩu vị</span>
-            </div>
-          </div>
+          <p style={{
+            fontSize: '13px',
+            color: 'var(--text-muted)',
+            textAlign: 'center',
+            lineHeight: 1.5,
+            maxWidth: '240px'
+          }}>
+            {product.description || 'Pha chế tươi mới chuẩn công thức đặc quyền.'}
+          </p>
         </div>
 
-        {/* CỘT PHẢI: Các bước Tùy Chọn (Size, Đường, Đá, Topping, Ghi chú) */}
-        <div className="drink-modal-right" style={{
-          display: 'flex',
-          flexDirection: 'column',
-          maxHeight: '90vh'
-        }}>
-          {/* Header bên phải */}
-          <div style={{
-            padding: '24px 28px 16px',
-            borderBottom: '1px solid var(--border-light)'
-          }}>
-            <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-light)', textTransform: 'uppercase' }}>
-              Tùy biến ly đồ uống của bạn
-            </span>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
-              <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary-700)', fontFamily: 'Quicksand' }}>
-                {formatVND(unitPrice)}
-              </div>
-              {selectedSize === 'L' && (
-                <span style={{ fontSize: '12px', color: 'var(--accent-orange)', fontWeight: 600 }}>
-                  (Đã gồm +10k Size L)
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Vùng cuộn các tùy chọn */}
-          <div className="modal-scroll-area" style={{
-            padding: '20px 28px',
-            overflowY: 'auto',
+        {/* CỘT PHẢI: Tùy biến Size, Đường, Đá & Topping */}
+        <div
+          className="drink-modal-right"
+          style={{
             flex: 1,
-            minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
-            gap: '22px'
-          }}>
+            overflowY: 'auto',
+            maxHeight: '90vh'
+          }}
+        >
+          <div style={{ padding: '34px 28px 24px', flex: 1, overflowY: 'auto' }}>
             {/* 1. CHỌN SIZE */}
-            <div>
-              <label style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-dark)', display: 'block', marginBottom: '10px' }}>
-                1. Kích Cỡ Ly (Size) <span style={{ color: 'var(--accent-orange)' }}>*</span>
-              </label>
+            <div style={{ marginBottom: '22px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-dark)' }}>
+                  1. Chọn Size Ly <span style={{ color: 'var(--accent-orange)' }}>*</span>
+                </span>
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                {/* Size M */}
-                <button
-                  type="button"
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.96 }}
                   onClick={() => setSelectedSize('M')}
                   style={{
-                    padding: '14px',
-                    borderRadius: 'var(--radius-md)',
-                    border: `2px solid ${selectedSize === 'M' ? 'var(--primary-600)' : 'var(--border-soft)'}`,
-                    backgroundColor: selectedSize === 'M' ? 'var(--primary-50)' : '#fff',
+                    padding: '12px 16px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: `2px solid ${selectedSize === 'M' ? 'var(--primary-600)' : 'var(--border-light)'}`,
+                    backgroundColor: selectedSize === 'M' ? 'var(--primary-100)' : '#fff',
+                    cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '12px',
-                    transition: 'all 0.18s'
+                    justifyContent: 'space-between',
+                    boxShadow: selectedSize === 'M' ? '0 4px 12px rgba(121, 85, 72, 0.12)' : 'none'
                   }}
                 >
-                  <div style={{
-                    fontSize: '22px',
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '10px',
-                    backgroundColor: selectedSize === 'M' ? 'var(--primary-100)' : 'var(--bg-surface-soft)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    🥤
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-dark)' }}>Size Vừa (M)</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Tiêu chuẩn 500ml</div>
                   </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-dark)' }}>Size M (500ml)</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Tiêu chuẩn (Gốc)</div>
-                  </div>
-                  {selectedSize === 'M' && <Check size={18} color="var(--primary-600)" style={{ marginLeft: 'auto' }} />}
-                </button>
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--primary-700)' }}>+0đ</span>
+                </motion.div>
 
-                {/* Size L */}
-                <button
-                  type="button"
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.96 }}
                   onClick={() => setSelectedSize('L')}
                   style={{
-                    padding: '14px',
-                    borderRadius: 'var(--radius-md)',
-                    border: `2px solid ${selectedSize === 'L' ? 'var(--primary-600)' : 'var(--border-soft)'}`,
-                    backgroundColor: selectedSize === 'L' ? 'var(--primary-50)' : '#fff',
+                    padding: '12px 16px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: `2px solid ${selectedSize === 'L' ? 'var(--primary-600)' : 'var(--border-light)'}`,
+                    backgroundColor: selectedSize === 'L' ? 'var(--primary-100)' : '#fff',
+                    cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '12px',
-                    transition: 'all 0.18s'
+                    justifyContent: 'space-between',
+                    boxShadow: selectedSize === 'L' ? '0 4px 12px rgba(121, 85, 72, 0.12)' : 'none'
                   }}
                 >
-                  <div style={{
-                    fontSize: '26px',
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '10px',
-                    backgroundColor: selectedSize === 'L' ? 'var(--primary-100)' : 'var(--bg-surface-soft)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    🧋
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-dark)' }}>Size Lớn (L)</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Uống đã 700ml</div>
                   </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-dark)' }}>Size L (700ml)</div>
-                    <div style={{ fontSize: '12px', color: 'var(--accent-orange)', fontWeight: 600 }}>+10.000 đ</div>
-                  </div>
-                  {selectedSize === 'L' && <Check size={18} color="var(--primary-600)" style={{ marginLeft: 'auto' }} />}
-                </button>
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--accent-orange)' }}>+10.000đ</span>
+                </motion.div>
               </div>
             </div>
 
             {/* 2. CHỌN MỨC ĐƯỜNG */}
-            <div>
-              <label style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-dark)', display: 'block', marginBottom: '10px' }}>
-                2. Lượng Đường (Độ ngọt)
-              </label>
+            <div style={{ marginBottom: '22px' }}>
+              <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-dark)', marginBottom: '10px' }}>
+                2. Lượng Đường (Ngọt theo ý bạn)
+              </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {sugarLevels.map((lvl) => {
-                  const isAct = selectedSugar === lvl;
+                  const isSel = selectedSugar === lvl;
                   return (
-                    <button
+                    <motion.button
                       key={lvl}
                       type="button"
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.93 }}
                       onClick={() => setSelectedSugar(lvl)}
                       style={{
-                        flex: '1 0 16%',
-                        minWidth: '60px',
-                        padding: '9px 12px',
+                        padding: '8px 14px',
                         borderRadius: 'var(--radius-full)',
-                        fontSize: '13px',
+                        border: `1.5px solid ${isSel ? 'var(--primary-600)' : 'var(--border-light)'}`,
+                        backgroundColor: isSel ? 'var(--primary-600)' : '#fff',
+                        color: isSel ? '#fff' : 'var(--text-body)',
+                        fontSize: '12.5px',
                         fontWeight: 700,
-                        border: `1.5px solid ${isAct ? 'var(--primary-600)' : 'var(--border-soft)'}`,
-                        backgroundColor: isAct ? 'var(--primary-600)' : '#fff',
-                        color: isAct ? '#fff' : 'var(--text-body)',
-                        transition: 'all 0.15s'
+                        cursor: 'pointer'
                       }}
                     >
                       {lvl}
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>
             </div>
 
             {/* 3. CHỌN MỨC ĐÁ */}
-            <div>
-              <label style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-dark)', display: 'block', marginBottom: '10px' }}>
-                3. Lượng Đá (Độ lạnh)
-              </label>
+            <div style={{ marginBottom: '22px' }}>
+              <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-dark)', marginBottom: '10px' }}>
+                3. Lượng Đá (Mát lạnh sảng khoái)
+              </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {iceLevels.map((lvl) => {
-                  const isAct = selectedIce === lvl;
+                  const isSel = selectedIce === lvl;
                   return (
-                    <button
+                    <motion.button
                       key={lvl}
                       type="button"
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.93 }}
                       onClick={() => setSelectedIce(lvl)}
                       style={{
-                        flex: '1 0 22%',
-                        minWidth: '85px',
-                        padding: '9px 12px',
+                        padding: '8px 14px',
                         borderRadius: 'var(--radius-full)',
-                        fontSize: '13px',
+                        border: `1.5px solid ${isSel ? 'var(--primary-600)' : 'var(--border-light)'}`,
+                        backgroundColor: isSel ? 'var(--primary-600)' : '#fff',
+                        color: isSel ? '#fff' : 'var(--text-body)',
+                        fontSize: '12.5px',
                         fontWeight: 700,
-                        border: `1.5px solid ${isAct ? 'var(--primary-600)' : 'var(--border-soft)'}`,
-                        backgroundColor: isAct ? 'var(--primary-600)' : '#fff',
-                        color: isAct ? '#fff' : 'var(--text-body)',
-                        transition: 'all 0.15s'
+                        cursor: 'pointer'
                       }}
                     >
                       {lvl}
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>
             </div>
 
             {/* 4. CHỌN TOPPING */}
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <label style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-dark)' }}>
-                  4. Thêm Topping Yêu Thích
-                </label>
-                <span style={{ fontSize: '11px', color: 'var(--text-light)' }}>Chọn nhiều loại tùy thích</span>
+            <div style={{ marginBottom: '22px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-dark)' }}>
+                  4. Phủ Thêm Topping ({selectedToppings.length} đã chọn)
+                </span>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Tự do chọn nhiều loại</span>
               </div>
 
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                gap: '10px'
-              }}>
-                {toppings.map((top) => {
-                  const isChosen = selectedToppings.includes(top.name);
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px' }}>
+                {toppings && toppings.map((top) => {
+                  const isChecked = selectedToppings.includes(top.name);
                   return (
-                    <div
+                    <motion.div
                       key={top.id || top.name}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.96 }}
                       onClick={() => handleToggleTopping(top.name)}
                       style={{
                         padding: '10px 14px',
                         borderRadius: 'var(--radius-sm)',
-                        border: `1.5px solid ${isChosen ? 'var(--primary-500)' : 'var(--border-light)'}`,
-                        backgroundColor: isChosen ? 'var(--primary-50)' : '#fff',
+                        border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border-light)'}`,
+                        backgroundColor: isChecked ? 'var(--accent-orange-light)' : '#fff',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        transition: 'all 0.15s'
+                        boxShadow: isChecked ? '0 2px 8px rgba(224, 122, 95, 0.15)' : 'none'
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -404,17 +375,16 @@ export default function DrinkModal({
                           width: '18px',
                           height: '18px',
                           borderRadius: '4px',
-                          border: `1.5px solid ${isChosen ? 'var(--primary-600)' : 'var(--border-soft)'}`,
-                          backgroundColor: isChosen ? 'var(--primary-600)' : '#fff',
+                          border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border-dark)'}`,
+                          backgroundColor: isChecked ? 'var(--accent-orange)' : '#fff',
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#fff'
+                          justifyContent: 'center'
                         }}>
-                          {isChosen && <Check size={12} strokeWidth={3} />}
+                          {isChecked && <Check size={12} color="#fff" strokeWidth={3} />}
                         </div>
                         <div>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-dark)' }}>
+                          <div style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--text-dark)' }}>
                             {top.name}
                           </div>
                           <div style={{ fontSize: '11.5px', color: 'var(--accent-orange)', fontWeight: 700 }}>
@@ -422,7 +392,7 @@ export default function DrinkModal({
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -435,7 +405,7 @@ export default function DrinkModal({
               </label>
               <input
                 type="text"
-                placeholder="VD: Để riêng đá giúp mình, cho ít trân châu..."
+                placeholder="VD: Để riêng đá giúp mình, cho nhiều kem cheese..."
                 value={itemNote}
                 onChange={(e) => setItemNote(e.target.value)}
                 style={{
@@ -470,7 +440,8 @@ export default function DrinkModal({
               borderRadius: 'var(--radius-full)',
               padding: '4px'
             }}>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.8 }}
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 style={{
@@ -482,15 +453,18 @@ export default function DrinkModal({
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'var(--text-dark)',
+                  border: 'none',
+                  cursor: 'pointer',
                   boxShadow: 'var(--shadow-sm)'
                 }}
               >
                 <Minus size={14} />
-              </button>
+              </motion.button>
               <span style={{ minWidth: '40px', textAlign: 'center', fontWeight: 800, fontSize: '15px' }}>
                 {quantity}
               </span>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.8 }}
                 type="button"
                 onClick={() => setQuantity(quantity + 1)}
                 style={{
@@ -502,16 +476,21 @@ export default function DrinkModal({
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'var(--text-dark)',
+                  border: 'none',
+                  cursor: 'pointer',
                   boxShadow: 'var(--shadow-sm)'
                 }}
               >
                 <Plus size={14} />
-              </button>
+              </motion.button>
             </div>
 
-            {/* Nút Thêm Vào Giỏ */}
-            <button
+            {/* Nút Thêm Vào Giỏ với phản hồi lực đàn hồi */}
+            <motion.button
               type="button"
+              whileHover={{ scale: 1.025 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: 'spring', stiffness: 450, damping: 18 }}
               onClick={handleConfirm}
               style={{
                 flex: 1,
@@ -525,24 +504,17 @@ export default function DrinkModal({
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '10px',
-                boxShadow: '0 4px 16px rgba(93, 64, 55, 0.3)',
-                transition: 'all 0.18s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--primary-700)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--primary-600)';
-                e.currentTarget.style.transform = 'translateY(0)';
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 6px 20px rgba(93, 64, 55, 0.32)'
               }}
             >
               <ShoppingBag size={18} />
               <span>Thêm vào giỏ hàng • {formatVND(subtotal)}</span>
-            </button>
+            </motion.button>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
