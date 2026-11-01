@@ -580,3 +580,69 @@ a {
     transform: rotate(0deg);
   }
 }
+
+
+/* ==========================================================================
+   COZY MILK TEA - DARK THEME STYLING
+   ========================================================================== */
+body.dark-mode {
+  --bg-app: #18110E;
+  --bg-surface: #241914;
+  --bg-surface-soft: #1D130F;
+  --bg-cream: #2A1D17;
+  --text-dark: #FAF5F0;
+  --text-body: #E6DDD8;
+  --text-muted: #BCAAA4;
+  --text-light: #8D6E63;
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.14);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.65);
+  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.75);
+  background-color: #18110E;
+  color: #E6DDD8;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+body.dark-mode header {
+  background-color: rgba(24, 17, 14, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-mode .category-tabs-sticky {
+  background-color: rgba(24, 17, 14, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-mode .product-card-body {
+  background-color: #241914 !important;
+}
+
+body.dark-mode .product-card-title {
+  color: #FAF5F0 !important;
+}
+
+body.dark-mode .drink-modal-box {
+  background-color: #241914 !important;
+}
+
+body.dark-mode .drink-modal-left {
+  background-color: #1A100C !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-mode .drink-modal-right {
+  background-color: #241914 !important;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+  background-color: #1A100C !important;
+  color: #FAF5F0 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark-mode .checkout-modal-box {
+  background-color: #241914 !important;
+}

@@ -20,6 +20,21 @@ export default function App() {
   const [isAdminMode, setIsAdminMode] = useState(false);
 
   // State Khách hàng Thành viên & Đăng nhập
+  // State Chế độ Giao Diện Sáng / Tối (Sun-Moon Walker Toggle)
+  const [isDark, setIsDark] = useState(() => {
+    return localStorage.getItem('COZY_THEME') === 'dark';
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('COZY_THEME', 'dark');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('COZY_THEME', 'light');
+    }
+  }, [isDark]);
+
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('COZY_CURRENT_USER') || 'null');
@@ -215,6 +230,8 @@ export default function App() {
         currentUser={currentUser}
         onOpenLogin={() => setIsLoginOpen(true)}
         onOpenAdmin={() => setIsAdminMode(true)}
+        isDark={isDark}
+        onToggleTheme={setIsDark}
       />
 
       {/* 2. HERO BANNER CHÀO MỪNG & VOUCHER DẠNG COUPON */}

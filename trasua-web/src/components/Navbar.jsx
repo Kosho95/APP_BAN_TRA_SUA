@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, ShoppingBag, Clock, ExternalLink, Sparkles, X, Coffee, User, ShieldCheck } from 'lucide-react';
 import { formatVND } from '../api';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar({
   cartCount,
@@ -13,7 +14,9 @@ export default function Navbar({
   adminUrl,
   currentUser,
   onOpenLogin,
-  onOpenAdmin
+  onOpenAdmin,
+  isDark,
+  onToggleTheme
 }) {
   const [searchFocused, setSearchFocused] = useState(false);
 
@@ -234,6 +237,9 @@ export default function Navbar({
             <span>Quản Trị</span>
           </button>
 
+          {/* NÚT CHUYỂN ĐỔI CHẾ ĐỘ SÁNG TỐI SUN-MOON WALKER */}
+          <ThemeToggle isDark={isDark} onToggle={onToggleTheme} />
+
           {/* Cart Button with Spring Elasticity */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -372,6 +378,8 @@ export default function Navbar({
           >
             <ShieldCheck size={18} />
           </button>
+
+          <ThemeToggle isDark={isDark} onToggle={onToggleTheme} />
 
           {/* Nút Giỏ hàng trên điện thoại */}
           <motion.button

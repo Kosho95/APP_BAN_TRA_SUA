@@ -1,0 +1,303 @@
+@property --p {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.sun-moon-toggle-wrapper {
+  --page-day: #dcebf8;
+  --page-night: #0b0f24;
+  --track-day: #a9dcff;
+  --track-night: #1a2158;
+  --rim-day: #2f5f8f;
+  --rim-night: #8792e6;
+  --focus: #2f6fed;
+
+  /* sun */
+  --sun: #ffc533;
+  --sun-hi: #ffe27a;
+  --sun-lo: #ff9f1a;
+  --sun-ink: #4a2c00;
+  --sun-leg: #b86a00;
+  --sun-shoe: #6f3d00;
+
+  /* moon */
+  --moon: #f6f0cf;
+  --moon-lo: #ddd4a4;
+  --moon-ink: #4b4a63;
+  --moon-leg: #d9d6c2;
+  --moon-shoe: #a9a58f;
+
+  --dur: 2.4s;
+  --swap: 0.9s;
+  --swap-delay: 0.75s;
+
+  display: inline-flex;
+  align-items: center;
+  justifyContent: center;
+}
+
+.sun-moon-toggle-wrapper .switch {
+  font-size: 17px;
+  display: block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1;
+}
+
+.sun-moon-toggle-wrapper .track {
+  --p: 0;
+  --dir: -1;
+  --body: 1.05em;
+  --leg: 0.38em;
+  --rest: 0.165em;
+  --x0: 0.2em;
+  --xr: calc(2.88em - var(--x0) - var(--body));
+
+  display: block;
+  position: relative;
+  width: 3em;
+  height: 1.5em;
+  border: 0.06em solid var(--rim-day);
+  border-radius: 999px;
+  background: var(--track-day);
+  transition:
+    --p var(--dur) linear,
+    background-color var(--swap) ease-in-out var(--swap-delay),
+    border-color var(--swap) ease-in-out var(--swap-delay);
+}
+
+.sun-moon-toggle-wrapper .track:has(:checked) {
+  --p: 1;
+  --dir: 1;
+  background: var(--track-night);
+  border-color: var(--rim-night);
+}
+
+.sun-moon-toggle-wrapper .track:has(:focus-visible) {
+  outline: 0.07em solid var(--focus);
+  outline-offset: 0.14em;
+}
+
+.sun-moon-toggle-wrapper .switch__input {
+  position: absolute;
+  inset: -0.2em -0.1em;
+  z-index: 10;
+  width: calc(100% + 0.2em);
+  height: calc(100% + 0.4em);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sun-moon-toggle-wrapper .stars {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 12% 30%, #fff 0 0.022em, transparent 0.03em),
+    radial-gradient(circle at 24% 68%, #fff 0 0.018em, transparent 0.026em),
+    radial-gradient(circle at 38% 24%, #fff 0 0.024em, transparent 0.032em),
+    radial-gradient(circle at 50% 72%, #fff 0 0.018em, transparent 0.026em),
+    radial-gradient(circle at 62% 28%, #fff 0 0.022em, transparent 0.03em),
+    radial-gradient(circle at 74% 66%, #fff 0 0.018em, transparent 0.026em);
+  transition: opacity var(--swap) ease-in-out var(--swap-delay);
+}
+
+.sun-moon-toggle-wrapper .track:has(:checked) .stars {
+  opacity: 1;
+}
+
+/* ---------- walker ---------- */
+
+.sun-moon-toggle-wrapper .walker {
+  --env: clamp(0, min(var(--p) / 0.12, (1 - var(--p)) / 0.12), 1);
+  --run: clamp(0, (var(--p) - 0.12) / 0.76, 1);
+  --ph: calc(var(--p) * 1080deg);
+  --sun-op: clamp(0, (0.62 - var(--p)) / 0.24, 1);
+  --b-top: calc((var(--leg) - var(--rest)) * (1 - var(--env)));
+  --leg-c: color-mix(in oklab, var(--sun-leg) calc(var(--sun-op) * 100%), var(--moon-leg));
+  --shoe-c: color-mix(in oklab, var(--sun-shoe) calc(var(--sun-op) * 100%), var(--moon-shoe));
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--body);
+  height: calc(var(--body) + var(--leg));
+  pointer-events: none;
+  translate:
+    calc(var(--x0) + (var(--xr) - var(--x0)) * var(--run))
+    calc(abs(sin(var(--ph))) * -0.05em * var(--env));
+}
+
+.sun-moon-toggle-wrapper .leg {
+  position: absolute;
+  top: calc(var(--b-top) + var(--body) - 0.12em);
+  left: 26%;
+  width: 0.15em;
+  height: calc(var(--leg) + 0.12em);
+  border-radius: 0.08em;
+  background: var(--leg-c);
+  transform-origin: 50% 0;
+  rotate: calc(sin(var(--ph)) * 30deg * var(--env));
+  scale: 1 var(--env);
+}
+
+.sun-moon-toggle-wrapper .leg--b {
+  left: 62%;
+  rotate: calc(sin(var(--ph)) * -30deg * var(--env));
+}
+
+.sun-moon-toggle-wrapper .leg::after {
+  content: "";
+  position: absolute;
+  bottom: -0.03em;
+  left: calc(50% - 0.16em);
+  width: 0.32em;
+  height: 0.14em;
+  border-radius: 0.14em 0.14em 0.04em 0.04em;
+  background: var(--shoe-c);
+}
+
+.sun-moon-toggle-wrapper .body {
+  position: absolute;
+  top: var(--b-top);
+  left: 0;
+  width: var(--body);
+  height: var(--body);
+  rotate: calc(sin(var(--ph)) * 5deg * var(--env));
+}
+
+.sun-moon-toggle-wrapper .form {
+  position: absolute;
+  inset: 0;
+}
+
+.sun-moon-toggle-wrapper .form--sun {
+  opacity: var(--sun-op);
+  rotate: calc((1 - var(--sun-op)) * 140deg);
+  scale: calc(0.6 + 0.4 * var(--sun-op));
+}
+
+.sun-moon-toggle-wrapper .form--moon {
+  opacity: calc(1 - var(--sun-op));
+  rotate: calc(var(--sun-op) * -140deg);
+  scale: calc(0.6 + 0.4 * (1 - var(--sun-op)));
+}
+
+.sun-moon-toggle-wrapper .face {
+  position: absolute;
+  inset: 0;
+  translate: calc(var(--dir) * 0.06em) 0;
+  transition: translate 0.4s ease;
+}
+
+/* sun */
+.sun-moon-toggle-wrapper .sun-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--sun-hi), var(--sun) 55%, var(--sun-lo));
+}
+
+.sun-moon-toggle-wrapper .rays {
+  position: absolute;
+  top: -0.2em;
+  left: -0.2em;
+  width: calc(var(--body) + 0.4em);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, var(--sun) 0 11deg, transparent 11deg 30deg);
+  -webkit-mask-image: radial-gradient(circle closest-side, transparent 69%, #000 70%);
+  mask-image: radial-gradient(circle closest-side, transparent 69%, #000 70%);
+  rotate: calc(var(--p) * 1080deg);
+}
+
+.sun-moon-toggle-wrapper .eye {
+  position: absolute;
+  top: 38%;
+  width: 0.13em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--sun-ink);
+}
+
+.sun-moon-toggle-wrapper .eye--l { left: 28%; }
+.sun-moon-toggle-wrapper .eye--r { right: 28%; }
+
+.sun-moon-toggle-wrapper .mouth {
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  width: 0.34em;
+  height: 0.17em;
+  translate: -50% 0;
+  border-bottom: 0.06em solid var(--sun-ink);
+  border-radius: 0 0 0.3em 0.3em;
+}
+
+.sun-moon-toggle-wrapper .cheek {
+  position: absolute;
+  top: 58%;
+  width: 0.16em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #ff7d4d;
+  opacity: 0.5;
+}
+
+.sun-moon-toggle-wrapper .cheek--l { left: 12%; }
+.sun-moon-toggle-wrapper .cheek--r { right: 12%; }
+
+/* moon: a crescent with a sleepy face */
+.sun-moon-toggle-wrapper .moon-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 24% 72%, var(--moon-lo) 0 0.1em, transparent 0.11em),
+    radial-gradient(circle at 46% 90%, var(--moon-lo) 0 0.06em, transparent 0.07em),
+    radial-gradient(circle at 30% 30%, #fffbe6, var(--moon) 60%);
+  -webkit-mask-image: radial-gradient(circle at 74% 30%, transparent 0.5em, #000 0.505em);
+  mask-image: radial-gradient(circle at 74% 30%, transparent 0.5em, #000 0.505em);
+}
+
+.sun-moon-toggle-wrapper .snooze {
+  position: absolute;
+  top: 44%;
+  left: 7%;
+  width: 0.2em;
+  height: 0.1em;
+  border-bottom: 0.05em solid var(--moon-ink);
+  border-radius: 0 0 0.2em 0.2em;
+}
+
+.sun-moon-toggle-wrapper .form--moon .cheek {
+  top: 60%;
+  left: 12%;
+  background: #f08fa0;
+  opacity: 0.55;
+}
+
+.sun-moon-toggle-wrapper .form--moon .mouth {
+  top: 68%;
+  left: 34%;
+  width: 0.2em;
+  height: 0.1em;
+  translate: 0 0;
+  border-bottom: 0.05em solid var(--moon-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-moon-toggle-wrapper .track {
+    transition-duration: 0.01s, 0.01s, 0.01s;
+    transition-delay: 0s, 0s, 0s;
+  }
+  .sun-moon-toggle-wrapper .stars,
+  .sun-moon-toggle-wrapper .face {
+    transition-duration: 0.01s;
+    transition-delay: 0s;
+  }
+}
