@@ -36,7 +36,7 @@ export default function SidebarFilter({
     }}>
       {/* 1. KHU DANH MỤC THỨC UỐNG */}
       <div style={{
-        backgroundColor: '#fff',
+        backgroundColor: 'var(--bg-surface)',
         borderRadius: 'var(--radius-md)',
         padding: '18px',
         border: '1px solid var(--border-light)',
@@ -132,7 +132,7 @@ export default function SidebarFilter({
 
       {/* 2. BỘ LỌC KHOẢNG GIÁ & SẮP XẾP */}
       <div style={{
-        backgroundColor: '#fff',
+        backgroundColor: 'var(--bg-surface)',
         borderRadius: 'var(--radius-md)',
         padding: '18px',
         border: '1px solid var(--border-light)',

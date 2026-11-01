@@ -92,7 +92,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'var(--bg-surface)',
         borderRadius: '20px',
         overflow: 'hidden',
         border: `1.5px solid ${isHovered ? theme.accent : 'rgba(121, 85, 72, 0.12)'}`,
@@ -116,7 +116,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
         width: '100%',
         paddingTop: '74%',
         overflow: 'hidden',
-        backgroundColor: '#F8F9FA'
+        backgroundColor: 'var(--bg-surface-soft)'
       }}>
         <img
           src={imgError ? fallbackImg : (product.image_url || fallbackImg)}
@@ -240,7 +240,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
         flexDirection: 'column',
         flex: 1,
         justifyContent: 'space-between',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: 'var(--bg-surface)'
       }}>
         <div>
           {/* Hàng Đánh Giá Sao & Lượt Bán */}
@@ -252,9 +252,9 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Star size={13} color="#F59E0B" fill="#F59E0B" />
-              <span style={{ fontSize: '12px', fontWeight: 800, color: '#4B5563' }}>{rating}</span>
+              <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-body)' }}>{rating}</span>
             </div>
-            <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: 600 }}>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>
               Đã bán {salesCount}+
             </span>
           </div>
@@ -263,7 +263,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
           <h3 className="product-card-title" style={{
             fontSize: '16px',
             fontWeight: 800,
-            color: '#2D1B16',
+            color: 'var(--text-dark)',
             lineHeight: 1.35,
             marginBottom: '6px',
             display: '-webkit-box',
@@ -278,7 +278,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
           {/* Mô tả món */}
           <p className="product-card-desc" style={{
             fontSize: '12.5px',
-            color: '#6B7280',
+            color: 'var(--text-muted)',
             lineHeight: 1.45,
             marginBottom: '16px',
             display: '-webkit-box',
@@ -301,7 +301,7 @@ export default function ProductCard({ product, categoryName, onSelectProduct }) 
           marginTop: 'auto'
         }}>
           <div>
-            <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: 700, display: 'block' }}>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 700, display: 'block' }}>
               Giá chỉ từ
             </span>
             <div className="product-card-price" style={{

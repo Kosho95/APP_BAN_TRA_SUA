@@ -152,7 +152,7 @@ export default function LoginModal({
         className="animate-modal"
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--bg-surface)',
           borderRadius: 'var(--radius-lg)',
           width: '100%',
           maxWidth: '460px',
@@ -171,8 +171,8 @@ export default function LoginModal({
             width: '32px',
             height: '32px',
             borderRadius: '50%',
-            backgroundColor: 'var(--primary-100)',
-            color: 'var(--primary-700)',
+            backgroundColor: 'var(--bg-surface-soft)',
+            color: 'var(--text-dark)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

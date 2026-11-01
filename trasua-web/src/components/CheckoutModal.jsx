@@ -179,7 +179,7 @@ export default function CheckoutModal({
         className="animate-modal"
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--bg-surface)',
           borderRadius: 'var(--radius-lg)',
           width: '100%',
           maxWidth: '560px',
@@ -202,8 +202,8 @@ export default function CheckoutModal({
             width: '34px',
             height: '34px',
             borderRadius: '50%',
-            backgroundColor: 'var(--primary-100)',
-            color: 'var(--primary-700)',
+            backgroundColor: 'var(--bg-surface-soft)',
+            color: 'var(--text-dark)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -409,7 +409,7 @@ export default function CheckoutModal({
                       gap: '4px',
                       padding: '10px 4px',
                       borderRadius: '12px',
-                      backgroundColor: fulfillmentType === 'delivery' ? '#fff' : 'transparent',
+                      backgroundColor: fulfillmentType === 'delivery' ? 'var(--bg-surface)' : 'transparent',
                       color: fulfillmentType === 'delivery' ? 'var(--primary-700)' : 'var(--text-muted)',
                       boxShadow: fulfillmentType === 'delivery' ? 'var(--shadow-sm)' : 'none',
                       border: fulfillmentType === 'delivery' ? '1.5px solid var(--accent-orange)' : '1.5px solid transparent',
@@ -433,7 +433,7 @@ export default function CheckoutModal({
                       gap: '4px',
                       padding: '10px 4px',
                       borderRadius: '12px',
-                      backgroundColor: fulfillmentType === 'pickup' ? '#fff' : 'transparent',
+                      backgroundColor: fulfillmentType === 'pickup' ? 'var(--bg-surface)' : 'transparent',
                       color: fulfillmentType === 'pickup' ? 'var(--primary-700)' : 'var(--text-muted)',
                       boxShadow: fulfillmentType === 'pickup' ? 'var(--shadow-sm)' : 'none',
                       border: fulfillmentType === 'pickup' ? '1.5px solid var(--accent-orange)' : '1.5px solid transparent',
@@ -457,7 +457,7 @@ export default function CheckoutModal({
                       gap: '4px',
                       padding: '10px 4px',
                       borderRadius: '12px',
-                      backgroundColor: fulfillmentType === 'dinein' ? '#fff' : 'transparent',
+                      backgroundColor: fulfillmentType === 'dinein' ? 'var(--bg-surface)' : 'transparent',
                       color: fulfillmentType === 'dinein' ? 'var(--primary-700)' : 'var(--text-muted)',
                       boxShadow: fulfillmentType === 'dinein' ? 'var(--shadow-sm)' : 'none',
                       border: fulfillmentType === 'dinein' ? '1.5px solid var(--accent-orange)' : '1.5px solid transparent',
@@ -639,7 +639,7 @@ export default function CheckoutModal({
                       padding: '12px',
                       borderRadius: 'var(--radius-sm)',
                       border: `1.5px solid ${paymentMethod === 'vietqr' ? 'var(--primary-600)' : 'var(--border-soft)'}`,
-                      backgroundColor: paymentMethod === 'vietqr' ? 'var(--primary-50)' : '#fff',
+                      backgroundColor: paymentMethod === 'vietqr' ? 'var(--primary-50)' : 'var(--bg-surface)',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -660,7 +660,7 @@ export default function CheckoutModal({
                       padding: '12px',
                       borderRadius: 'var(--radius-sm)',
                       border: `1.5px solid ${paymentMethod === 'cod' ? 'var(--primary-600)' : 'var(--border-soft)'}`,
-                      backgroundColor: paymentMethod === 'cod' ? 'var(--primary-50)' : '#fff',
+                      backgroundColor: paymentMethod === 'cod' ? 'var(--primary-50)' : 'var(--bg-surface)',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -747,7 +747,7 @@ export default function CheckoutModal({
             <div style={{
               padding: '16px 24px',
               borderTop: '1px solid var(--border-light)',
-              backgroundColor: '#fff',
+              backgroundColor: 'var(--bg-surface)',
               flexShrink: 0
             }}>
               <button

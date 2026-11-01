@@ -97,7 +97,7 @@ export default function DrinkModal({
         className="drink-modal-box"
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--bg-surface)',
           borderRadius: 'var(--radius-lg)',
           width: '100%',
           maxWidth: '860px',
@@ -126,8 +126,8 @@ export default function DrinkModal({
             width: '36px',
             height: '36px',
             borderRadius: '50%',
-            backgroundColor: 'var(--primary-100)',
-            color: 'var(--primary-700)',
+            backgroundColor: 'var(--bg-surface-soft)',
+            color: 'var(--text-dark)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -165,7 +165,7 @@ export default function DrinkModal({
               overflow: 'hidden',
               boxShadow: '0 10px 25px rgba(93, 64, 55, 0.15)',
               marginBottom: '16px',
-              border: '4px solid #fff'
+              border: '4px solid var(--border-soft)'
             }}
           >
             <img
@@ -234,20 +234,20 @@ export default function DrinkModal({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 'var(--radius-sm)',
-                    border: `2px solid ${selectedSize === 'M' ? 'var(--primary-600)' : 'var(--border-light)'}`,
-                    backgroundColor: selectedSize === 'M' ? 'var(--primary-100)' : '#fff',
+                    border: `2px solid ${selectedSize === 'M' ? 'var(--primary-600)' : 'var(--border-soft)'}`,
+                    backgroundColor: selectedSize === 'M' ? 'var(--primary-600)' : 'var(--bg-surface)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    boxShadow: selectedSize === 'M' ? '0 4px 12px rgba(121, 85, 72, 0.12)' : 'none'
+                    boxShadow: selectedSize === 'M' ? '0 4px 12px rgba(121, 85, 72, 0.25)' : 'none'
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-dark)' }}>Size Vừa (M)</div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Tiêu chuẩn 500ml</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: selectedSize === 'M' ? '#fff' : 'var(--text-dark)' }}>Size Vừa (M)</div>
+                    <div style={{ fontSize: '11px', color: selectedSize === 'M' ? 'rgba(255,255,255,0.85)' : 'var(--text-muted)' }}>Tiêu chuẩn 500ml</div>
                   </div>
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--primary-700)' }}>+0đ</span>
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: selectedSize === 'M' ? '#fff' : 'var(--primary-700)' }}>+0đ</span>
                 </motion.div>
 
                 <motion.div
@@ -257,20 +257,20 @@ export default function DrinkModal({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 'var(--radius-sm)',
-                    border: `2px solid ${selectedSize === 'L' ? 'var(--primary-600)' : 'var(--border-light)'}`,
-                    backgroundColor: selectedSize === 'L' ? 'var(--primary-100)' : '#fff',
+                    border: `2px solid ${selectedSize === 'L' ? 'var(--primary-600)' : 'var(--border-soft)'}`,
+                    backgroundColor: selectedSize === 'L' ? 'var(--primary-600)' : 'var(--bg-surface)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    boxShadow: selectedSize === 'L' ? '0 4px 12px rgba(121, 85, 72, 0.12)' : 'none'
+                    boxShadow: selectedSize === 'L' ? '0 4px 12px rgba(121, 85, 72, 0.25)' : 'none'
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-dark)' }}>Size Lớn (L)</div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Uống đã 700ml</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: selectedSize === 'L' ? '#fff' : 'var(--text-dark)' }}>Size Lớn (L)</div>
+                    <div style={{ fontSize: '11px', color: selectedSize === 'L' ? 'rgba(255,255,255,0.85)' : 'var(--text-muted)' }}>Uống đã 700ml</div>
                   </div>
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--accent-orange)' }}>+10.000đ</span>
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: selectedSize === 'L' ? '#fff' : 'var(--accent-orange)' }}>+10.000đ</span>
                 </motion.div>
               </div>
             </div>
@@ -293,8 +293,8 @@ export default function DrinkModal({
                       style={{
                         padding: '8px 14px',
                         borderRadius: 'var(--radius-full)',
-                        border: `1.5px solid ${isSel ? 'var(--primary-600)' : 'var(--border-light)'}`,
-                        backgroundColor: isSel ? 'var(--primary-600)' : '#fff',
+                        border: `1.5px solid ${isSel ? 'var(--primary-600)' : 'var(--border-soft)'}`,
+                        backgroundColor: isSel ? 'var(--primary-600)' : 'var(--bg-surface)',
                         color: isSel ? '#fff' : 'var(--text-body)',
                         fontSize: '12.5px',
                         fontWeight: 700,
@@ -326,8 +326,8 @@ export default function DrinkModal({
                       style={{
                         padding: '8px 14px',
                         borderRadius: 'var(--radius-full)',
-                        border: `1.5px solid ${isSel ? 'var(--primary-600)' : 'var(--border-light)'}`,
-                        backgroundColor: isSel ? 'var(--primary-600)' : '#fff',
+                        border: `1.5px solid ${isSel ? 'var(--primary-600)' : 'var(--border-soft)'}`,
+                        backgroundColor: isSel ? 'var(--primary-600)' : 'var(--bg-surface)',
                         color: isSel ? '#fff' : 'var(--text-body)',
                         fontSize: '12.5px',
                         fontWeight: 700,
@@ -362,8 +362,8 @@ export default function DrinkModal({
                       style={{
                         padding: '10px 14px',
                         borderRadius: 'var(--radius-sm)',
-                        border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border-light)'}`,
-                        backgroundColor: isChecked ? 'var(--accent-orange-light)' : '#fff',
+                        border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border-soft)'}`,
+                        backgroundColor: isChecked ? 'var(--accent-orange-light)' : 'var(--bg-surface)',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -376,8 +376,8 @@ export default function DrinkModal({
                           width: '18px',
                           height: '18px',
                           borderRadius: '4px',
-                          border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border-dark)'}`,
-                          backgroundColor: isChecked ? 'var(--accent-orange)' : '#fff',
+                          border: `1.5px solid ${isChecked ? 'var(--accent-orange)' : 'var(--border-soft)'}`,
+                          backgroundColor: isChecked ? 'var(--accent-orange)' : 'var(--bg-surface-soft)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center'
@@ -427,7 +427,7 @@ export default function DrinkModal({
           <div style={{
             padding: '18px 28px',
             borderTop: '1px solid var(--border-light)',
-            backgroundColor: '#fff',
+            backgroundColor: 'var(--bg-surface)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -449,12 +449,12 @@ export default function DrinkModal({
                   width: '32px',
                   height: '32px',
                   borderRadius: '50%',
-                  backgroundColor: '#fff',
+                  backgroundColor: 'var(--bg-surface)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'var(--text-dark)',
-                  border: 'none',
+                  border: '1px solid var(--border-soft)',
                   cursor: 'pointer',
                   boxShadow: 'var(--shadow-sm)'
                 }}
@@ -472,12 +472,12 @@ export default function DrinkModal({
                   width: '32px',
                   height: '32px',
                   borderRadius: '50%',
-                  backgroundColor: '#fff',
+                  backgroundColor: 'var(--bg-surface)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'var(--text-dark)',
-                  border: 'none',
+                  border: '1px solid var(--border-soft)',
                   cursor: 'pointer',
                   boxShadow: 'var(--shadow-sm)'
                 }}

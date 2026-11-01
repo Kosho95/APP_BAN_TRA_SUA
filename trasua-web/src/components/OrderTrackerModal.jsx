@@ -70,7 +70,7 @@ export default function OrderTrackerModal({
         className="animate-modal"
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--bg-surface)',
           borderRadius: 'var(--radius-lg)',
           width: '100%',
           maxWidth: '680px',
@@ -92,8 +92,8 @@ export default function OrderTrackerModal({
             width: '34px',
             height: '34px',
             borderRadius: '50%',
-            backgroundColor: 'var(--primary-100)',
-            color: 'var(--primary-700)',
+            backgroundColor: 'var(--bg-surface-soft)',
+            color: 'var(--text-dark)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -135,7 +135,7 @@ export default function OrderTrackerModal({
                   padding: '10px 14px 10px 38px',
                   borderRadius: 'var(--radius-full)',
                   border: '1.5px solid var(--border-soft)',
-                  backgroundColor: '#fff',
+                  backgroundColor: 'var(--bg-surface)',
                   fontSize: '13.5px',
                   color: 'var(--text-dark)',
                   outline: 'none'
@@ -258,8 +258,8 @@ export default function OrderTrackerModal({
                           gap: '4px',
                           fontSize: '11.5px',
                           fontWeight: 700,
-                          color: 'var(--primary-600)',
-                          backgroundColor: '#fff',
+                          color: 'var(--primary-700)',
+                          backgroundColor: 'var(--bg-surface)',
                           padding: '4px 10px',
                           borderRadius: 'var(--radius-full)',
                           border: '1px solid var(--border-soft)',
@@ -314,7 +314,7 @@ export default function OrderTrackerModal({
                                 width: '36px',
                                 height: '36px',
                                 borderRadius: '50%',
-                                backgroundColor: isDone ? 'var(--matcha-green)' : '#fff',
+                                backgroundColor: isDone ? 'var(--matcha-green)' : 'var(--bg-surface)',
                                 color: isDone ? '#fff' : 'var(--text-light)',
                                 border: `2px solid ${isDone ? 'var(--matcha-green)' : 'var(--border-soft)'}`,
                                 display: 'flex',
@@ -360,7 +360,7 @@ export default function OrderTrackerModal({
                   {/* Danh Sách Món Trong Đơn */}
                   {order.items && order.items.length > 0 && (
                     <div style={{
-                      backgroundColor: '#fff',
+                      backgroundColor: 'var(--bg-surface)',
                       borderRadius: 'var(--radius-sm)',
                       padding: '12px 14px',
                       border: '1px solid var(--border-light)'

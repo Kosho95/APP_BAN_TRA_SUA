@@ -283,7 +283,7 @@ export default function App() {
           <div className="products-grid">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
               <div key={n} style={{
-                backgroundColor: '#fff',
+                backgroundColor: 'var(--bg-surface)',
                 borderRadius: 'var(--radius-md)',
                 padding: '16px',
                 border: '1px solid var(--border-light)',
@@ -307,7 +307,7 @@ export default function App() {
           <div style={{
             textAlign: 'center',
             padding: '70px 20px',
-            backgroundColor: '#fff',
+            backgroundColor: 'var(--bg-surface)',
             borderRadius: 'var(--radius-lg)',
             border: '1.5px dashed var(--border-soft)',
             display: 'flex',

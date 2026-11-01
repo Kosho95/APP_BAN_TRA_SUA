@@ -66,7 +66,7 @@ export default function CartDrawer({
           width: '100%',
           maxWidth: '460px',
           height: '100%',
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--bg-surface)',
           display: 'flex',
           flexDirection: 'column',
           boxShadow: '0 0 50px rgba(62, 39, 35, 0.35)',
@@ -140,8 +140,8 @@ export default function CartDrawer({
                 width: '34px',
                 height: '34px',
                 borderRadius: '50%',
-                backgroundColor: 'var(--primary-100)',
-                color: 'var(--primary-700)',
+                backgroundColor: 'var(--bg-surface)',
+                color: 'var(--text-dark)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -275,7 +275,8 @@ export default function CartDrawer({
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      backgroundColor: '#fff',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-soft)',
                       borderRadius: 'var(--radius-full)',
                       padding: '2px 4px',
                       border: '1px solid var(--border-soft)'
@@ -332,7 +333,7 @@ export default function CartDrawer({
           <div style={{
             padding: '20px 24px',
             borderTop: '1px solid var(--border-light)',
-            backgroundColor: '#fff',
+            backgroundColor: 'var(--bg-surface)',
             display: 'flex',
             flexDirection: 'column',
             gap: '14px',

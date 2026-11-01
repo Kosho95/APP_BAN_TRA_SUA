@@ -260,11 +260,11 @@ export default function HeroBanner({ onApplyCoupon, activeCoupon }) {
           <div className="hero-right-col" style={{ flex: '1 1 280px', minWidth: 0, maxWidth: '100%', zIndex: 5 }}>
             <div
               style={{
-                backgroundColor: '#FFFFFF',
+                backgroundColor: 'var(--bg-surface)',
                 borderRadius: '20px',
                 padding: '18px',
-                boxShadow: '0 16px 36px rgba(0,0,0,0.3)',
-                border: '2px solid rgba(255, 255, 255, 0.9)'
+                boxShadow: 'var(--shadow-lg)',
+                border: '1.5px solid var(--border-soft)'
               }}
             >
               <div
@@ -274,7 +274,7 @@ export default function HeroBanner({ onApplyCoupon, activeCoupon }) {
                   gap: '8px',
                   fontSize: '14px',
                   fontWeight: 800,
-                  color: '#2D1B16',
+                  color: 'var(--text-dark)',
                   marginBottom: '12px'
                 }}
               >
@@ -297,9 +297,9 @@ export default function HeroBanner({ onApplyCoupon, activeCoupon }) {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: '10px 12px',
-                        backgroundColor: isApplied ? '#FFF4ED' : '#F8F9FA',
+                        backgroundColor: isApplied ? 'var(--accent-orange-light)' : 'var(--bg-surface-soft)',
                         borderRadius: '12px',
-                        border: `1.5px solid ${isApplied ? c.color : '#E5E7EB'}`,
+                        border: `1.5px solid ${isApplied ? c.color : 'var(--border-soft)'}`,
                         cursor: 'pointer',
                         boxShadow: isApplied
                           ? '0 6px 16px rgba(224, 122, 95, 0.2)'
@@ -313,7 +313,7 @@ export default function HeroBanner({ onApplyCoupon, activeCoupon }) {
                               fontFamily: 'monospace',
                               fontWeight: 900,
                               color: c.color,
-                              backgroundColor: '#fff',
+                              backgroundColor: 'var(--bg-surface)',
                               border: `1px solid ${c.color}`,
                               padding: '2px 6px',
                               borderRadius: '5px',
@@ -322,11 +322,11 @@ export default function HeroBanner({ onApplyCoupon, activeCoupon }) {
                           >
                             {c.code}
                           </span>
-                          <span style={{ fontSize: '13px', fontWeight: 800, color: '#2D1B16' }}>
+                          <span style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-dark)' }}>
                             {c.title}
                           </span>
                         </div>
-                        <div style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>
+                        <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
                           {c.desc}
                         </div>
                       </div>
